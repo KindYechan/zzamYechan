@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로고 안쪽의 U자 모양 (윗변이 없고 아래가 둥근 선) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="10dp"
+    android:height="14dp"
+    android:viewportWidth="10"
+    android:viewportHeight="14">
+    <path
+        android:pathData="M1,0V9a4,4 0 0 0 8,0V0"
+        android:strokeWidth="2"
+        android:strokeColor="@color/brand_mark_inner" />
+</vector>

@@ -1,0 +1,995 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_admin_room.xml — 행정반 대시보드 (가입/생성을 마친 뒤의 행정반 메인 화면)
+    AdminRoomActivity 가 setContentView 로 띄웁니다.
+
+    구조:
+      행정반 머리 (부대 이름 + 메뉴 버튼)      btn_room_menu → popup_room_menu.xml
+      스크롤 영역 (배경이 살짝 더 진한 회녹색)
+          [요약 카드 (3) | 전파사항 (1)]       ← 가로 3 : 1 비율 (weight)
+          퀘스트 카드                          card_room_quest
+          캘린더 카드                          card_room_calendar
+          부대 게시판 / 진급 계산기 / 마음의 편지   card_board / card_promotion / card_letter
+      하단 탭 (include)
+
+    누르면 열리는 것:
+      card_broadcast  → dialog_broadcast.xml (전파사항 작성)
+      card_letter     → dialog_letter.xml (마음의 편지)
+      나머지(게시판, 계산기, 캘린더)는 다음 묶음에서 만들 화면으로 이동
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- ───────── 행정반 머리 (홈의 상단바와 모양이 달라서 따로 만듦) ───────── -->
+    <LinearLayout
+        android:id="@+id/room_header"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="22dp"
+        android:paddingEnd="18dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_room_unit"
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/room_unit_sample"
+                android:textColor="@color/room_kicker"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/tv_room_title"
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:letterSpacing="-0.04"
+                android:text="@string/room_title_sample"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 메뉴 버튼. 누르면 이 버튼 아래에 popup_room_menu 가 뜸 -->
+        <ImageButton
+            android:id="@+id/btn_room_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_menu_button"
+            android:contentDescription="@string/room_menu"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_menu"
+            app:tint="@color/menu_icon_tint" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/header_divider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/room_bg"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_padding_h"
+            android:paddingTop="14dp"
+            android:paddingEnd="@dimen/screen_padding_h"
+            android:paddingBottom="24dp">
+
+            <!-- ───────── 첫 줄: 요약(3) | 전파사항(1) ─────────
+                 width=0dp 에 weight 3 과 1 → 남은 너비를 3:1 로 나눔.
+                 전파사항 카드 높이를 match_parent 로 둬서 요약 카드와 높이를 맞춤 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/card_summary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/bg_summary_card"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <!-- 날짜 | 시각 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_summary_date"
+                            style="@style/JjamText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/room_date_sample"
+                            android:textColor="@color/summary_date"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_summary_time"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="-0.04"
+                            android:text="@string/room_time_sample"
+                            android:textColor="@color/on_dark"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- 미확인 공지 (누르면 게시판으로) -->
+                    <LinearLayout
+                        android:id="@+id/btn_unread_notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:paddingTop="13dp"
+                        android:paddingBottom="11dp">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/room_unread_notice"
+                            android:textColor="@color/summary_label"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_unread_count"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/room_unread_count_sample"
+                            android:textColor="@color/on_dark"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginBottom="4dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_chevron"
+                            app:tint="@color/on_dark" />
+                    </LinearLayout>
+
+                    <!-- 긴박한 퀘스트 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_summary_box"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="9dp">
+
+                        <ImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:background="@drawable/bg_summary_mini_icon"
+                            android:importantForAccessibility="no"
+                            android:padding="6.5dp"
+                            android:src="@drawable/ic_flag"
+                            app:tint="@color/on_dark" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/room_urgent_quest"
+                                android:textColor="@color/summary_small"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_urgent_quest"
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:text="@string/room_urgent_quest_sample"
+                                android:textColor="@color/on_dark"
+                                android:textSize="@dimen/text_tiny"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_urgent_dday"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/quest1_dday"
+                            android:textColor="@color/summary_dday"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 전파사항 버튼 카드 -->
+                <LinearLayout
+                    android:id="@+id/card_broadcast"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_broadcast_card"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="6dp">
+
+                    <ImageView
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:background="@drawable/bg_broadcast_icon"
+                        android:importantForAccessibility="no"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_megaphone"
+                        app:tint="@color/broadcast_text" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="@string/room_broadcast"
+                        android:textColor="@color/broadcast_text"
+                        android:textSize="@dimen/text_caption"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/room_broadcast_sub"
+                        android:textColor="@color/broadcast_sub"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────── 퀘스트 카드 ───────── -->
+            <LinearLayout
+                android:id="@+id/card_room_quest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_room_card"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/label_icon_box"
+                        android:layout_height="@dimen/label_icon_box"
+                        android:background="@drawable/bg_label_icon"
+                        android:importantForAccessibility="no"
+                        android:padding="5.5dp"
+                        android:src="@drawable/ic_flag"
+                        app:tint="@color/label_icon_tint" />
+
+                    <TextView
+                        style="@style/JjamText.RoomCardTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="@string/room_quest_title" />
+
+                    <LinearLayout
+                        android:id="@+id/btn_quest_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_detail"
+                            android:textColor="@color/room_link"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_chevron"
+                            app:tint="@color/room_link" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 홈에서 쓴 경험치 조각을 여기서도 재사용 -->
+                <include
+                    layout="@layout/layout_xp_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp" />
+
+                <!-- 오늘의 대표 퀘스트 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/bg_schedule_item"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <View
+                        android:id="@+id/check_room_quest"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/bg_quest_check"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_urgent_pill"
+                            android:paddingStart="6dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="3dp"
+                            android:text="@string/room_quest_pill"
+                            android:textColor="@color/urgent_pill_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_room_quest_name"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:lineSpacingMultiplier="1.25"
+                            android:text="@string/room_quest_name_sample"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_room_quest_desc"
+                            style="@style/JjamText.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/room_quest_desc_sample"
+                            android:textSize="@dimen/text_tiny" />
+                    </LinearLayout>
+
+                    <!-- layout_gravity="top": 이 배지만 위쪽에 붙임 -->
+                    <TextView
+                        android:id="@+id/tv_room_quest_reward"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:background="@drawable/bg_reward_badge"
+                        android:paddingStart="7dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="7dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/room_quest_reward_sample"
+                        android:textColor="@color/reward_text"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 참여 인원 [진행 바] 17 / 25 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room_participants"
+                        android:textColor="@color/completion_text"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_participants"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:max="25"
+                        android:progress="17"
+                        android:progressDrawable="@drawable/progress_completion" />
+
+                    <TextView
+                        android:id="@+id/tv_participants"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room_participants_sample"
+                        android:textColor="@color/completion_value"
+                        android:textSize="@dimen/text_tiny"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────── 캘린더 카드 ───────── -->
+            <LinearLayout
+                android:id="@+id/card_room_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_room_card"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/label_icon_box"
+                        android:layout_height="@dimen/label_icon_box"
+                        android:background="@drawable/bg_label_icon"
+                        android:importantForAccessibility="no"
+                        android:padding="5.5dp"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/label_icon_tint" />
+
+                    <TextView
+                        style="@style/JjamText.RoomCardTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="@string/room_calendar_title" />
+
+                    <LinearLayout
+                        android:id="@+id/btn_calendar_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_detail"
+                            android:textColor="@color/room_link"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_chevron"
+                            app:tint="@color/room_link" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 월~금 5칸을 weight 1 씩 똑같이 나눔 -->
+                <LinearLayout
+                    android:id="@+id/mini_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/mini_mon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
+
+                        <TextView
+                            android:id="@+id/tv_mini_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="월"
+                            android:textColor="@color/text_muted"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_mini_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="14"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mini_tue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
+
+                        <TextView
+                            android:id="@+id/tv_mini_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="화"
+                            android:textColor="@color/text_muted"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_mini_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="15"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mini_wed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/bg_mini_week_active"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
+
+                        <TextView
+                            android:id="@+id/tv_mini_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="수"
+                            android:textColor="@color/mini_week_sub"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_mini_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="16"
+                            android:textColor="@color/on_dark"
+                            android:textSize="@dimen/text_caption"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mini_thu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
+
+                        <TextView
+                            android:id="@+id/tv_mini_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="목"
+                            android:textColor="@color/text_muted"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_mini_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="17"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mini_fri"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
+
+                        <TextView
+                            android:id="@+id/tv_mini_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="금"
+                            android:textColor="@color/text_muted"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_mini_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="18"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 일정 2개를 반반 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/item_event1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/bg_event_chip"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_event1_time"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/room_event1_time"
+                            android:textColor="@color/event_time"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_event1_title"
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:text="@string/room_event1_title"
+                                android:textSize="@dimen/text_caption"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_event1_place"
+                                style="@style/JjamText.Caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/room_event1_place"
+                                android:textSize="@dimen/text_tiny" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/item_event2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_event_chip"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_event2_time"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/room_event2_time"
+                            android:textColor="@color/event_time"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_event2_title"
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:text="@string/room_event2_title"
+                                android:textSize="@dimen/text_caption"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_event2_place"
+                                style="@style/JjamText.Caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/room_event2_place"
+                                android:textSize="@dimen/text_tiny" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────── 작은 카드 3개 (누르면 각 화면으로) ───────── -->
+            <LinearLayout
+                android:id="@+id/card_board"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_small_card_cream"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="72dp"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="13dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="13dp">
+
+                <ImageView
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:background="@drawable/bg_small_card_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_board"
+                    app:tint="@color/small_icon_tint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText.BodyBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room_board_title" />
+
+                    <TextView
+                        android:id="@+id/tv_board_sub"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/room_board_sub_sample"
+                        android:textColor="@color/small_sub"
+                        android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron"
+                    app:tint="@color/nav_inactive" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/card_promotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_small_card_sage"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="72dp"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="13dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="13dp">
+
+                <ImageView
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:background="@drawable/bg_small_card_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_rank"
+                    app:tint="@color/small_icon_tint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText.BodyBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room_promotion_title" />
+
+                    <TextView
+                        android:id="@+id/tv_promotion_sub"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/room_promotion_sub_sample"
+                        android:textColor="@color/small_sub"
+                        android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron"
+                    app:tint="@color/nav_inactive" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/card_letter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_room_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="72dp"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="13dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="13dp">
+
+                <ImageView
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:background="@drawable/bg_small_card_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_letter"
+                    app:tint="@color/small_icon_tint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText.BodyBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room_letter_title" />
+
+                    <TextView
+                        android:id="@+id/tv_letter_sub"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/room_letter_sub"
+                        android:textColor="@color/small_sub"
+                        android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron"
+                    app:tint="@color/nav_inactive" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_bottom_nav" />
+
+</LinearLayout>

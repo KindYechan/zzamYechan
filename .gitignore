@@ -1,0 +1,45 @@
+# ─────────────────────────────────────────────
+# 안드로이드 스튜디오 (Java) 프로젝트용 .gitignore
+# 깃허브에 올리지 않을 파일/폴더 목록이에요.
+# 프로젝트 맨 위 폴더(settings.gradle 이 있는 곳)에 두세요.
+# ─────────────────────────────────────────────
+
+# 빌드 결과물 — 빌드할 때마다 새로 만들어지는 파일 (용량 큼)
+build/
+/app/build/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+/captures
+
+# Gradle 캐시
+.gradle/
+.kotlin/
+.externalNativeBuild/
+.cxx/
+
+# 컴퓨터마다 다른 설정 — 조원마다 SDK 경로가 달라서 올리면 충돌나요
+local.properties
+
+# 안드로이드 스튜디오(IntelliJ) 개인 설정
+*.iml
+.idea/
+.navigation/
+
+# 앱 서명 키 — 절대 공개 저장소에 올리면 안 돼요
+*.jks
+*.keystore
+
+# 비밀 키/토큰을 담는 파일 (나중에 API 키를 쓸 경우 대비)
+secrets.properties
+google-services.json
+
+# 운영체제가 자동으로 만드는 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 로그
+*.log

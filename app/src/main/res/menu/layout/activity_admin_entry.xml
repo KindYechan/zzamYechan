@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_admin_entry.xml — 행정반 입장 화면 (아직 행정반에 가입하지 않았을 때)
+    AdminEntryActivity 가 setContentView 로 띄웁니다.
+
+    구조:
+      상단바                    ← include (홈과 같은 파일)
+      스크롤 영역
+          엠블럼 / 환영 문구        (위쪽)
+          ── 빈 공간(Space weight=1) ──   ← 버튼들을 화면 아래쪽으로 밀어냄
+          [기존 행정반에 들어가기]   btn_join   → 가입 시트(sheet_join.xml)
+          [새로운 행정반 생성하기]   btn_create → 생성 시트(sheet_create_step1.xml)
+          개인정보 안내
+      하단 탭                   ← include (홈과 같은 파일)
+
+    Java 힌트: 이 화면에서는 하단 탭의 "행정반"이 선택돼 보여야 하니까
+      bottomNav.setSelectedItemId(R.id.nav_admin);
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_bar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/header_divider" />
+
+    <!-- fillViewport="true": 내용이 화면보다 짧아도 ScrollView 높이만큼 늘려 줌.
+         이게 있어야 아래 Space(weight=1)가 남는 공간을 채워서 버튼이 바닥 쪽에 붙어요.
+         화면이 작은 폰에서는 자연스럽게 스크롤됩니다. -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_entry_glow"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_padding_h"
+            android:paddingTop="55dp"
+            android:paddingEnd="@dimen/screen_padding_h"
+            android:paddingBottom="24dp">
+
+            <!-- ───────── 엠블럼 + 환영 문구 (가운데 정렬) ───────── -->
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_emblem"
+                android:elevation="8dp"
+                android:importantForAccessibility="no"
+                android:padding="19dp"
+                android:src="@drawable/ic_unit"
+                app:tint="@color/emblem_tint" />
+
+            <TextView
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="19dp"
+                android:text="@string/entry_kicker" />
+
+            <!-- 문자열 안의 \n 으로 줄바꿈. lineSpacingMultiplier 로 줄 간격 조절 -->
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:letterSpacing="-0.05"
+                android:lineSpacingMultiplier="1.25"
+                android:text="@string/entry_title"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.45"
+                android:text="@string/entry_desc"
+                android:textColor="@color/text_hint"
+                android:textSize="@dimen/text_body" />
+
+            <!-- 남는 공간을 모두 차지해서 아래 버튼들을 바닥 쪽으로 밀어냄 -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="45dp" />
+
+            <!-- ───────── 버튼 1: 기존 행정반에 들어가기 (강조형) ─────────
+                 LinearLayout 을 버튼처럼 쓰려면 clickable + focusable 을 켜고,
+                 foreground 에 selectableItemBackground 를 주면 누를 때 물결 효과가 생겨요. -->
+            <LinearLayout
+                android:id="@+id/btn_join"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_entry_button_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="82dp"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_entry_icon_on_dark"
+                    android:importantForAccessibility="no"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_users"
+                    app:tint="@color/on_dark" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/entry_join_title"
+                        android:textColor="@color/on_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/entry_join_desc"
+                        android:textColor="@color/entry_primary_sub"
+                        android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron"
+                    app:tint="@color/on_dark" />
+            </LinearLayout>
+
+            <!-- ───────── 버튼 2: 새로운 행정반 생성하기 (기본형) ───────── -->
+            <LinearLayout
+                android:id="@+id/btn_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/bg_entry_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="82dp"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_entry_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_plus"
+                    app:tint="@color/entry_icon_tint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/entry_create_title"
+                        android:textColor="@color/entry_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/JjamText.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/entry_create_desc"
+                        android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron"
+                    app:tint="@color/entry_text" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="@string/entry_privacy"
+                android:textColor="@color/privacy_note"
+                android:textSize="@dimen/text_tiny" />
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_bottom_nav" />
+
+</LinearLayout>

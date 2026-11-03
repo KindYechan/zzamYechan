@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 전파사항 버튼 카드 (연두색) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/broadcast_bg" />
+    <corners android:radius="19dp" />
+</shape>

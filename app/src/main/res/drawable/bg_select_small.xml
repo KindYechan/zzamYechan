@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 작은 선택 상자 배경 (수정 권한) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/select_bg" />
+    <corners android:radius="9dp" />
+</shape>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 선택 상자(Spinner) 배경 = 입력칸 모양 + 오른쪽 화살표.
+     Spinner 에 background 를 직접 지정하면 기본 화살표가 사라지기 때문에
+     layer-list 로 화살표를 한 층 더 얹었어요. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_input" />
+    <item
+        android:width="16dp"
+        android:height="16dp"
+        android:drawable="@drawable/ic_chevron_down"
+        android:end="13dp"
+        android:gravity="end|center_vertical" />
+</layer-list>

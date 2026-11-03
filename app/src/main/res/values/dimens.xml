@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    크기 값 모음. dp = 화면 밀도와 무관한 길이, sp = 글자 크기(사용자 글꼴 설정을 따름).
+
+    참고: 원본 웹 디자인은 8~10px 같은 아주 작은 글자를 많이 써요.
+    안드로이드에서 그대로 쓰면 읽기 어려워서 가장 작은 글자를 11sp로 올렸어요.
+    (머티리얼 가이드 권장 최소 크기는 약 11~12sp)
+    더 원본에 가깝게 하고 싶으면 아래 text_ 값만 줄이면 됩니다.
+-->
+<resources>
+    <!-- 여백 -->
+    <dimen name="screen_padding_h">18dp</dimen>
+    <dimen name="screen_padding_top">20dp</dimen>
+    <dimen name="card_gap">12dp</dimen>
+    <dimen name="card_padding">17dp</dimen>
+
+    <!-- 모서리 반경 -->
+    <dimen name="radius_card">22dp</dimen>
+    <dimen name="radius_inner">14dp</dimen>
+
+    <!-- 상단바 / 하단 내비게이션 높이 -->
+    <dimen name="top_bar_height">72dp</dimen>
+    <dimen name="bottom_nav_height">72dp</dimen>
+
+    <!-- 아이콘 -->
+    <dimen name="icon_button">38dp</dimen>
+    <dimen name="label_icon_box">27dp</dimen>
+    <dimen name="label_icon">16dp</dimen>
+
+    <!-- 글자 크기 -->
+    <dimen name="text_tiny">11sp</dimen>       <!-- 원본 8~9px -->
+    <dimen name="text_caption">12sp</dimen>    <!-- 원본 10~11px -->
+    <dimen name="text_body">13sp</dimen>       <!-- 원본 12~13px -->
+    <dimen name="text_title">17sp</dimen>      <!-- 카드 제목 -->
+    <dimen name="text_brand">19sp</dimen>
+    <dimen name="text_money">21sp</dimen>
+    <dimen name="text_big_number">36sp</dimen>  <!-- 남은 복무일 숫자 -->
+</resources>

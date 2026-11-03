@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 기본 프로필 이미지 (원본 avatar.svg 를 벡터로 옮김) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- 동그랗게 잘라내기: 이 원 밖으로 나가는 부분(몸통 아래쪽)은 그려지지 않아요 -->
+    <clip-path android:pathData="M60,0a60,60 0 1 1 0,120a60,60 0 1 1 0,-120z" />
+    <path android:pathData="M60,0a60,60 0 1 1 0,120a60,60 0 1 1 0,-120z">
+        <aapt:attr name="android:fillColor" xmlns:aapt="http://schemas.android.com/aapt">
+            <gradient android:type="linear"
+                android:startX="0" android:startY="0"
+                android:endX="120" android:endY="120"
+                android:startColor="#FFDFE9D8" android:endColor="#FF9FB79E" />
+        </aapt:attr>
+    </path>
+    <path android:fillColor="#FFF1C9A7" android:pathData="M38,46a22,22 0 1 0 44,0a22,22 0 1 0 -44,0" />
+    <path android:fillColor="#FF2D3E33" android:pathData="M37 44c1-19 10-28 24-28 17 0 25 12 23 31-6-3-10-10-12-17-9 9-20 13-35 14Z" />
+    <path android:fillColor="#FF4B6B55" android:pathData="M24 120c2-30 16-45 36-45s34 15 36 45Z" />
+    <path android:fillColor="#FFE8EEE3" android:pathData="M43 76c4 8 10 12 17 12s13-4 17-12l7 5c-6 13-14 20-24 20s-18-7-24-20Z" />
+</vector>

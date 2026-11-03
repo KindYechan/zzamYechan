@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 작은 선택 상자 배경 + 화살표 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_select_small" />
+    <item
+        android:width="14dp"
+        android:height="14dp"
+        android:drawable="@drawable/ic_chevron_down"
+        android:end="8dp"
+        android:gravity="end|center_vertical" />
+</layer-list>

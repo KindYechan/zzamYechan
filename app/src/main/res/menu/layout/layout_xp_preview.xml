@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    layout_xp_preview.xml — 레벨/경험치 미리보기 (홈 퀘스트 카드, 행정반 퀘스트 카드에서 재사용)
+    [LV 7]  김민준 일병            1,240 / 2,000 XP
+            ▓▓▓▓▓▓▓▓▓░░░░░
+    Java: progress_xp.setMax(2000); progress_xp.setProgress(1240);
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xp_preview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_xp_preview"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingTop="11dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="11dp">
+
+    <!-- 레벨 배지 -->
+    <LinearLayout
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="@drawable/bg_level_badge"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/JjamText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/xp_level_label"
+            android:textColor="@color/on_dark"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_level"
+            style="@style/JjamText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/xp_level_sample"
+            android:textColor="@color/on_dark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_xp_name"
+                style="@style/JjamText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/xp_name_sample"
+                android:textColor="@color/xp_name"
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_xp_value"
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/xp_value_sample"
+                android:textColor="@color/text_hint"
+                android:textSize="@dimen/text_tiny"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 가로 진행 바: progressDrawable 로 모양을 바꿨어요 (drawable/progress_xp.xml) -->
+        <ProgressBar
+            android:id="@+id/progress_xp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="7dp"
+            android:max="2000"
+            android:progress="1240"
+            android:progressDrawable="@drawable/progress_xp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로고 마크: 한쪽(왼쪽 아래)만 덜 둥근 사각형 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/brand_mark" />
+    <corners
+        android:topLeftRadius="9dp"
+        android:topRightRadius="9dp"
+        android:bottomRightRadius="9dp"
+        android:bottomLeftRadius="3dp" />
+</shape>

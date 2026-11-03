@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 작은 카드 왼쪽 아이콘 상자 (반투명 흰색) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/small_icon_bg" />
+    <corners android:radius="12dp" />
+</shape>

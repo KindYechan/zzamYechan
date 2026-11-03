@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 진급 진행률 바 (ProgressBar의 progressDrawable로 사용)
+     layer-list: 아래층 = 회색 트랙, 위층 = 채워지는 부분.
+     위층을 <clip>으로 감싸야 progress 값만큼만 잘려서 보여요. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/promo_track" />
+            <corners android:radius="9dp" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="@color/promo_progress" />
+                <corners android:radius="9dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

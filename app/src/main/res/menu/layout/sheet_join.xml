@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    sheet_join.xml — "기존 행정반에 들어가기" 를 누르면 올라오는 가입 시트
+
+    바텀시트 = 화면 아래에서 올라오는 창. Java에서 이렇게 띄워요:
+      BottomSheetDialog sheet = new BottomSheetDialog(this);
+      sheet.setContentView(R.layout.sheet_join);
+      sheet.show();
+    시트 안의 뷰는 sheet.findViewById(R.id.xxx) 로 찾아요. (sheet. 을 꼭 붙이기!)
+    닫기: btn_close 를 누르면 sheet.dismiss();
+
+    입력값 읽기: ((EditText) sheet.findViewById(R.id.et_name)).getText().toString()
+-->
+<!-- 시트가 길어져도 키보드에 가려지지 않게 전체를 ScrollView 로 감쌌어요 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_sheet"
+    android:scrollbars="none">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="21dp"
+    android:paddingTop="23dp"
+    android:paddingEnd="21dp"
+    android:paddingBottom="24dp">
+
+    <!-- 머리: 작은 머리말 + 제목 | 닫기(X) 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_sheet_kicker"
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_kicker" />
+
+            <TextView
+                android:id="@+id/tv_sheet_title"
+                style="@style/JjamText.SheetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/join_title" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/icon_button"
+            android:layout_height="@dimen/icon_button"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/action_close"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/icon_default" />
+    </LinearLayout>
+
+    <!-- 입력 폼: [이름표 + 입력칸] 이 위아래로 반복 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/label_name" />
+
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_name" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_rank" />
+
+        <Spinner
+            android:id="@+id/sp_rank"
+            style="@style/JjamSpinner"
+            android:entries="@array/ranks" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_referrer" />
+
+        <EditText
+            android:id="@+id/et_referrer"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_referrer" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_unit_nickname" />
+
+        <EditText
+            android:id="@+id/et_unit_nickname"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_unit_nickname_join" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/JjamButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="22dp"
+        android:text="@string/join_submit" />
+
+</LinearLayout>
+</ScrollView>

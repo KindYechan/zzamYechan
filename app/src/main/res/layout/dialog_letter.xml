@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    dialog_letter.xml — "마음의 편지" 카드를 누르면 뜨는 익명 편지 작성 창
+
+    가운데 뜨는 창(다이얼로그). Java에서 이렇게 띄워요:
+      Dialog dialog = new Dialog(this);
+      dialog.setContentView(R.layout.dialog_letter);
+      // 기본 흰 사각형 배경을 투명하게 → 우리 둥근 배경(bg_dialog)만 보이게
+      dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+      // 가로를 화면에 맞게 (안 하면 좁게 나와요)
+      dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      dialog.show();
+    안의 뷰는 dialog.findViewById(R.id.xxx) 로 찾아요.
+
+    ⚠ 전송 시간 6개는 3칸×2줄 격자(GridLayout)라서 RadioGroup 을 쓸 수 없어요.
+      (RadioGroup 은 한 줄로만 배치되기 때문)
+      그래서 "하나만 선택"은 Java에서 직접 처리해야 해요:
+      하나를 누르면 → 나머지 5개를 setChecked(false)
+    "사용자 설정"을 고르면 tv_custom_time 을 VISIBLE 로 바꾸고,
+      그걸 누르면 DatePickerDialog / TimePickerDialog 를 띄우면 됩니다.
+    버튼 글자 바꾸기: btnSubmit.setText(getString(R.string.letter_submit_later, "3시간"));
+-->
+<!-- 바깥 FrameLayout 의 padding 22dp = 창과 화면 가장자리 사이 여백 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="22dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:elevation="12dp"
+    android:orientation="vertical"
+    android:padding="22dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/letter_kicker" />
+
+            <TextView
+                style="@style/JjamText.DialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/letter_title" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/icon_button"
+            android:layout_height="@dimen/icon_button"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/action_close"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/icon_default" />
+    </LinearLayout>
+
+    <!-- 익명 안내 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_note"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_letter"
+            app:tint="@color/note_text" />
+
+        <TextView
+            style="@style/JjamText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:text="@string/letter_note"
+            android:textColor="@color/note_text"
+            android:textSize="@dimen/text_tiny" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_letter"
+        style="@style/JjamInput.MultiLine"
+        android:layout_marginTop="12dp"
+        android:autofillHints=""
+        android:hint="@string/letter_hint"
+        android:maxLength="500"
+        android:minHeight="120dp" />
+
+    <TextView
+        style="@style/JjamText.FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/letter_delay" />
+
+    <!-- 3열 격자. 음수 margin 은 칩 바깥 여백(3.5dp)만큼 당겨서 양끝을 위 입력칸과 맞추기 위함 -->
+    <GridLayout
+        android:id="@+id/grid_delay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-3.5dp"
+        android:layout_marginTop="4.5dp"
+        android:layout_marginEnd="-3.5dp"
+        android:columnCount="3">
+
+        <RadioButton
+            android:id="@+id/rb_delay_now"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="true"
+            android:text="@string/letter_delay_now"
+            android:textStyle="normal" />
+
+        <RadioButton
+            android:id="@+id/rb_delay_1h"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="false"
+            android:text="@string/letter_delay_1h"
+            android:textStyle="normal" />
+
+        <RadioButton
+            android:id="@+id/rb_delay_3h"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="false"
+            android:text="@string/letter_delay_3h"
+            android:textStyle="normal" />
+
+        <RadioButton
+            android:id="@+id/rb_delay_6h"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="false"
+            android:text="@string/letter_delay_6h"
+            android:textStyle="normal" />
+
+        <RadioButton
+            android:id="@+id/rb_delay_1d"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="false"
+            android:text="@string/letter_delay_1d"
+            android:textStyle="normal" />
+
+        <RadioButton
+            android:id="@+id/rb_delay_custom"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="3.5dp"
+            android:checked="false"
+            android:text="@string/letter_delay_custom"
+            android:textStyle="normal" />
+    </GridLayout>
+
+    <!-- "사용자 설정"을 골랐을 때만 보이는 날짜/시간 선택 칸 (처음엔 gone = 숨김 + 자리도 차지 안 함) -->
+    <TextView
+        android:id="@+id/tv_custom_time"
+        style="@style/JjamInput"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_spinner"
+        android:clickable="true"
+        android:focusable="true"
+        android:inputType="none"
+        android:text="@string/letter_pick_time"
+        android:textColor="@color/text_muted"
+        android:textSize="@dimen/text_caption"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/JjamButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="17dp"
+        android:text="@string/letter_submit" />
+
+</LinearLayout>
+</FrameLayout>

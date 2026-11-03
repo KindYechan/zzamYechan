@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    선택 상자(Spinner)에 들어갈 항목 목록.
+    레이아웃에서 android:entries="@array/이름" 으로 연결하면 Java 코드 없이도 항목이 채워져요.
+    Java에서 고른 값 읽기: spinner.getSelectedItemPosition() (0부터 시작) 또는 getSelectedItem()
+-->
+<resources>
+    <!-- 0번 "계급을 선택해주세요" 는 안내 문구. Java에서 0번이면 "선택 안 함"으로 처리하세요 -->
+    <string-array name="ranks">
+        <item>계급을 선택해주세요</item>
+        <item>이병</item>
+        <item>일병</item>
+        <item>상병</item>
+        <item>병장</item>
+    </string-array>
+
+    <!-- 원본 기본값은 "대대"(1번). Java에서 spinner.setSelection(1) -->
+    <string-array name="unit_types">
+        <item>여단</item>
+        <item>대대</item>
+        <item>사단</item>
+    </string-array>
+
+    <string-array name="edit_permissions">
+        <item>일부 관리자만</item>
+        <item>모든 대원</item>
+    </string-array>
+</resources>

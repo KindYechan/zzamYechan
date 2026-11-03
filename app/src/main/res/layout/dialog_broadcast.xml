@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    dialog_broadcast.xml — 행정반 대시보드의 "행정반 전파사항" 카드를 누르면 뜨는 창
+
+    가운데 뜨는 창(다이얼로그). Java에서 이렇게 띄워요:
+      Dialog dialog = new Dialog(this);
+      dialog.setContentView(R.layout.dialog_broadcast);
+      // 기본 흰 사각형 배경을 투명하게 → 우리 둥근 배경(bg_dialog)만 보이게
+      dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+      // 가로를 화면에 맞게 (안 하면 좁게 나와요)
+      dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      dialog.show();
+    안의 뷰는 dialog.findViewById(R.id.xxx) 로 찾아요.
+
+    유형 3개는 RadioGroup 으로 묶었어요 → 하나를 누르면 나머지는 자동으로 해제됩니다.
+    어떤 게 골라졌는지: radioGroup.getCheckedRadioButtonId() == R.id.rb_type_urgent
+-->
+<!-- 바깥 FrameLayout 의 padding 22dp = 창과 화면 가장자리 사이 여백 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="22dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:elevation="12dp"
+    android:orientation="vertical"
+    android:padding="22dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/broadcast_kicker" />
+
+            <TextView
+                style="@style/JjamText.DialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/broadcast_title" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/icon_button"
+            android:layout_height="@dimen/icon_button"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/action_close"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/icon_default" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/JjamText.FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/broadcast_type" />
+
+    <!-- RadioGroup: 안에 든 RadioButton 중 하나만 선택되게 해 주는 묶음 (LinearLayout 처럼 배치됨) -->
+    <RadioGroup
+        android:id="@+id/rg_broadcast_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checkedButton="@+id/rb_type_meal"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_type_meal"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/broadcast_type_meal" />
+
+        <RadioButton
+            android:id="@+id/rb_type_call"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/broadcast_type_call" />
+
+        <!-- 긴급만 선택 시 빨간색: 배경·글자색 selector 를 따로 지정 -->
+        <RadioButton
+            android:id="@+id/rb_type_urgent"
+            style="@style/JjamOption"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_option_urgent"
+            android:text="@string/broadcast_type_urgent"
+            android:textColor="@color/option_urgent_text_selector" />
+    </RadioGroup>
+
+    <TextView
+        style="@style/JjamText.FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/broadcast_content" />
+
+    <!-- maxLength 200: 200자까지만 입력 가능 -->
+    <EditText
+        android:id="@+id/et_broadcast"
+        style="@style/JjamInput.MultiLine"
+        android:autofillHints=""
+        android:hint="@string/broadcast_hint"
+        android:maxLength="200"
+        android:minHeight="108dp"
+        android:textSize="@dimen/text_caption" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/JjamButton.Secondary"
+            android:layout_width="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:text="@string/action_cancel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            style="@style/JjamButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:text="@string/broadcast_submit" />
+    </LinearLayout>
+
+</LinearLayout>
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "작성자 정보는 공개되지 않아요" 안내 상자 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/note_bg" />
+    <corners android:radius="11dp" />
+</shape>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    화면에 보이는 글자는 레이아웃에 직접 쓰지 않고 여기 모아 둡니다.
+    (번역·수정이 쉽고, 안드로이드 스튜디오 경고도 사라져요)
+
+    %1$s, %1$d 같은 건 "자리표시자"예요. Java에서 값을 넣어 완성합니다.
+    예) getString(R.string.home_days_left_value, 468)
+-->
+<resources>
+    <string name="app_name">짬인지</string>
+
+    <!-- 공통 -->
+    <string name="action_notifications">지난 알림</string>
+    <string name="action_settings">설정</string>
+    <string name="action_view_all">전체보기</string>
+    <string name="action_setup">설정</string>
+
+    <!-- 하단 내비게이션 -->
+    <string name="nav_home">홈</string>
+    <string name="nav_admin">행정반</string>
+
+    <!-- 홈: 전역일 카드 -->
+    <string name="home_profile_desc">프로필 사진</string>
+    <string name="home_rank_sample">일병</string>
+    <string name="home_name_sample">김민준</string>
+    <string name="home_days_left_label">남은 복무일</string>
+    <string name="home_days_left_value">468</string>
+    <string name="home_days_unit">일</string>
+    <string name="home_discharge_date">전역일 2026. 10. 27</string>
+    <string name="home_next_promotion">다음 진급일 2025. 08. 01</string>
+    <string name="home_promotion_percent">14.3%</string>
+
+    <!-- 홈: 식단 카드 -->
+    <string name="home_meal_title">오늘의 식단</string>
+    <string name="home_meal_empty_title">식단표를 설정해주세요</string>
+    <string name="home_meal_empty_desc">우리 부대 식단을 등록하면 매일 알려드려요</string>
+
+    <!-- 홈: 월급 / 적금 -->
+    <string name="home_salary_title">이번 달 월급</string>
+    <string name="home_salary_value">900,000</string>
+    <string name="home_salary_dday">지급일까지 D-8</string>
+    <string name="home_saving_title">총 적금</string>
+    <string name="home_saving_value">1,100,000</string>
+    <string name="home_saving_progress">목표의 8.4%</string>
+    <string name="unit_won">원</string>
+
+    <!-- 홈: 캘린더 카드 -->
+    <string name="home_calendar_kicker">이번 주</string>
+    <string name="home_calendar_title">캘린더</string>
+    <string name="home_schedule_time">09:00</string>
+    <string name="home_schedule_title">대대 전투체육</string>
+    <string name="home_schedule_desc">연병장 집합 · 전투복</string>
+
+    <!-- 홈: 퀘스트 카드 -->
+    <string name="home_quest_kicker">D-DAY 임박</string>
+    <string name="home_quest_title">퀘스트</string>
+    <string name="xp_level_label">LV</string>
+    <string name="xp_level_sample">7</string>
+    <string name="xp_name_sample">김민준 일병</string>
+    <string name="xp_value_sample">1,240 / 2,000 XP</string>
+    <string name="quest1_title">개인화기 손질</string>
+    <string name="quest1_due">오늘 18:00까지</string>
+    <string name="quest1_dday">D-0</string>
+    <string name="quest1_xp">+80 XP</string>
+    <string name="quest2_title">체력검정 준비</string>
+    <string name="quest2_due">6월 18일까지</string>
+    <string name="quest2_dday">D-2</string>
+    <string name="quest2_xp">+120 XP</string>
+    <!-- ───── 행정반 입장 화면 ───── -->
+    <string name="entry_kicker">함께 만드는 우리 부대</string>
+    <string name="entry_title">행정반에 오신 것을\n환영합니다</string>
+    <string name="entry_desc">우리 부대의 일정과 소식을 한곳에서\n빠르고 편하게 확인해보세요.</string>
+    <string name="entry_join_title">기존 행정반에 들어가기</string>
+    <string name="entry_join_desc">초대 코드로 우리 부대에 참여해요</string>
+    <string name="entry_create_title">새로운 행정반 생성하기</string>
+    <string name="entry_create_desc">부대 공간을 직접 만들고 관리해요</string>
+    <string name="entry_privacy">행정반 정보는 소속 인원에게만 안전하게 공개됩니다.</string>
+
+    <!-- ───── 바텀시트 공통 ───── -->
+    <string name="action_close">닫기</string>
+    <string name="action_prev">이전</string>
+    <string name="action_next">다음</string>
+
+    <!-- 가입 시트 -->
+    <string name="join_kicker">행정반 가입</string>
+    <string name="join_title">대원 정보를 입력해주세요</string>
+    <string name="label_name">이름</string>
+    <string name="hint_name">실명을 입력해주세요</string>
+    <string name="label_rank">계급</string>
+    <string name="label_referrer">추천인</string>
+    <string name="hint_referrer">추천인 이름 (선택)</string>
+    <string name="label_unit_nickname">부대 호칭</string>
+    <string name="hint_unit_nickname_join">초대받은 부대 호칭</string>
+    <string name="join_submit">행정반 들어가기</string>
+
+    <!-- 생성 시트 1단계 -->
+    <string name="create_kicker_step1">새 행정반 · 1/2</string>
+    <string name="create_title_step1">부대 정보를 알려주세요</string>
+    <string name="label_unit_name">부대 이름</string>
+    <string name="hint_unit_name">예: 제3보병사단</string>
+    <string name="hint_unit_nickname_create">대원들이 부를 이름</string>
+    <string name="label_unit_type">부대 구분</string>
+    <string name="label_unit_desc">부대 설명</string>
+    <string name="hint_unit_desc">우리 부대를 간단히 소개해주세요</string>
+
+    <!-- 생성 시트 2단계 -->
+    <string name="create_kicker_step2">새 행정반 · 2/2</string>
+    <string name="create_title_step2">필요한 기능을 선택하세요</string>
+    <string name="create_section_features">기능 추가</string>
+    <string name="feature_calendar">캘린더</string>
+    <string name="feature_quest">퀘스트</string>
+    <string name="feature_promotion">진급 조건</string>
+    <string name="feature_notice">공지사항</string>
+    <string name="feature_alert">행정반 알림</string>
+    <string name="feature_letter">마음의 편지</string>
+    <string name="create_section_manage">관리 설정</string>
+    <string name="label_edit_permission">수정 권한</string>
+    <string name="label_activity_log">활동 로그</string>
+    <string name="desc_activity_log">수정 내역을 기록합니다</string>
+    <string name="create_submit">행정반 생성하기</string>
+
+    <!-- ───── 행정반 대시보드 ───── -->
+    <string name="room_unit_sample">제3보병사단</string>
+    <string name="room_title_sample">백골대대 행정반</string>
+    <string name="room_menu">행정반 메뉴</string>
+    <string name="room_date_sample">6월 16일 월요일</string>
+    <string name="room_time_sample">09:41</string>
+    <string name="room_unread_notice">미확인 공지</string>
+    <string name="room_unread_count_sample">3건</string>
+    <string name="room_urgent_quest">긴박한 퀘스트</string>
+    <string name="room_urgent_quest_sample">개인화기 손질</string>
+    <string name="room_broadcast">행정반\n전파사항</string>
+    <string name="room_broadcast_sub">빠른 전파</string>
+    <string name="action_detail">자세히보기</string>
+    <string name="room_quest_title">퀘스트</string>
+    <string name="room_quest_pill">오늘까지</string>
+    <string name="room_quest_name_sample">개인화기 손질 및\n검사 준비</string>
+    <string name="room_quest_desc_sample">완료 후 분대장에게 보고</string>
+    <string name="room_quest_reward_sample">+80 XP</string>
+    <string name="room_participants">참여 인원</string>
+    <string name="room_participants_sample">17 / 25</string>
+    <string name="room_calendar_title">캘린더</string>
+    <string name="room_event1_time">09:00</string>
+    <string name="room_event1_title">대대 전투체육</string>
+    <string name="room_event1_place">연병장</string>
+    <string name="room_event2_time">14:00</string>
+    <string name="room_event2_title">소대별 정신교육</string>
+    <string name="room_event2_place">생활관</string>
+    <string name="room_board_title">부대 게시판</string>
+    <string name="room_board_sub_sample">새로운 글 4개</string>
+    <string name="room_promotion_title">진급 계산기</string>
+    <string name="room_promotion_sub_sample">상병까지 D-46</string>
+    <string name="room_letter_title">마음의 편지</string>
+    <string name="room_letter_sub">익명으로 전하는 이야기</string>
+
+    <!-- 행정반 메뉴 팝업 -->
+    <string name="menu_quest">퀘스트</string>
+    <string name="menu_calendar">캘린더</string>
+    <string name="menu_board">게시판</string>
+    <string name="menu_calculator">계산기</string>
+    <string name="menu_letter">마음의 편지</string>
+    <string name="menu_log">설정 (로그)</string>
+    <string name="menu_edit">편집</string>
+
+    <!-- 전파사항 작성 창 -->
+    <string name="broadcast_kicker">행정반 전파</string>
+    <string name="broadcast_title">전파사항 작성</string>
+    <string name="broadcast_type">유형</string>
+    <string name="broadcast_type_meal">식사</string>
+    <string name="broadcast_type_call">호출</string>
+    <string name="broadcast_type_urgent">긴급</string>
+    <string name="broadcast_content">전파 내용</string>
+    <string name="broadcast_hint">대원들에게 전파할 내용을 입력해주세요</string>
+    <string name="action_cancel">취소</string>
+    <string name="broadcast_submit">전파하기</string>
+
+    <!-- 마음의 편지 창 -->
+    <string name="letter_kicker">완전 익명 전송</string>
+    <string name="letter_title">마음의 편지</string>
+    <string name="letter_note">작성자 정보는 누구에게도 공개되지 않아요.</string>
+    <string name="letter_hint">마음속 이야기를 편하게 적어주세요.</string>
+    <string name="letter_delay">전송 시간</string>
+    <string name="letter_delay_now">지금 바로</string>
+    <string name="letter_delay_1h">1시간</string>
+    <string name="letter_delay_3h">3시간</string>
+    <string name="letter_delay_6h">6시간</string>
+    <string name="letter_delay_1d">하루</string>
+    <string name="letter_delay_custom">사용자 설정</string>
+    <string name="letter_pick_time">날짜와 시간을 선택해주세요</string>
+    <string name="letter_submit">익명으로 보내기</string>
+    <!-- 예약 전송일 때: getString(R.string.letter_submit_later, "3시간") → "3시간 후 예약 전송" -->
+    <string name="letter_submit_later">%1$s 후 예약 전송</string>
+</resources>

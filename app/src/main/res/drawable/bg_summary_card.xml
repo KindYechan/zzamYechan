@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 행정반 요약 카드 (짙은 초록) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/summary_bg" />
+    <corners android:radius="19dp" />
+</shape>

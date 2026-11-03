@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 요약 카드 안의 반투명 상자 (긴박한 퀘스트) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/summary_box" />
+    <corners android:radius="11dp" />
+</shape>

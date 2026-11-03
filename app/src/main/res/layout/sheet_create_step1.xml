@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    sheet_create_step1.xml — "새로운 행정반 생성하기" 1단계: 부대 정보
+
+    바텀시트 = 화면 아래에서 올라오는 창. Java에서 이렇게 띄워요:
+      BottomSheetDialog sheet = new BottomSheetDialog(this);
+      sheet.setContentView(R.layout.sheet_create_step1);
+      sheet.show();
+    시트 안의 뷰는 sheet.findViewById(R.id.xxx) 로 찾아요. (sheet. 을 꼭 붙이기!)
+    닫기: btn_close 를 누르면 sheet.dismiss();
+
+    "다음"(btn_next)을 누르면: 이 시트를 dismiss() 하고 sheet_create_step2 시트를 띄우면 돼요.
+    (또는 같은 시트에서 sheet.setContentView(R.layout.sheet_create_step2) 로 내용만 바꿔도 돼요)
+    부대 구분 기본값을 "대대"로: spinner.setSelection(1);
+-->
+<!-- 시트가 길어져도 키보드에 가려지지 않게 전체를 ScrollView 로 감쌌어요 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_sheet"
+    android:scrollbars="none">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="21dp"
+    android:paddingTop="23dp"
+    android:paddingEnd="21dp"
+    android:paddingBottom="24dp">
+
+    <!-- 머리: 작은 머리말 + 제목 | 닫기(X) 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_sheet_kicker"
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_kicker_step1" />
+
+            <TextView
+                android:id="@+id/tv_sheet_title"
+                style="@style/JjamText.SheetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/create_title_step1" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/icon_button"
+            android:layout_height="@dimen/icon_button"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/action_close"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/icon_default" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/label_unit_name" />
+
+        <EditText
+            android:id="@+id/et_unit_name"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_unit_name" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_unit_nickname" />
+
+        <EditText
+            android:id="@+id/et_unit_nickname"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_unit_nickname_create" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_unit_type" />
+
+        <Spinner
+            android:id="@+id/sp_unit_type"
+            style="@style/JjamSpinner"
+            android:entries="@array/unit_types" />
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/label_unit_desc" />
+
+        <EditText
+            android:id="@+id/et_unit_desc"
+            style="@style/JjamInput"
+            android:autofillHints=""
+            android:hint="@string/hint_unit_desc"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minHeight="76dp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/JjamButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="22dp"
+        android:text="@string/action_next" />
+
+</LinearLayout>
+</ScrollView>

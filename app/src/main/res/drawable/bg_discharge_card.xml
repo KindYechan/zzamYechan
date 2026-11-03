@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 전역일 카드: 짙은 초록 그라데이션.
+     android:angle 은 45의 배수만 가능해요. 315 = 왼쪽 위 → 오른쪽 아래 (CSS 145deg와 비슷) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="315"
+        android:startColor="@color/primary_dark"
+        android:endColor="@color/primary_light"
+        android:type="linear" />
+    <corners android:radius="@dimen/radius_card" />
+</shape>

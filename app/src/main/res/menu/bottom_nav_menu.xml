@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 하단 내비게이션의 탭 목록.
+     Java에서 탭이 눌리면 item.getItemId() 가 R.id.nav_home / R.id.nav_admin 중
+     무엇인지 보고 해당 화면(Activity)으로 이동하면 됩니다. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/nav_home" />
+    <item
+        android:id="@+id/nav_admin"
+        android:icon="@drawable/ic_unit"
+        android:title="@string/nav_admin" />
+</menu>

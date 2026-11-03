@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    짬인지 색상 팔레트 (피그마 Make의 index.css 값을 그대로 옮김)
+    색은 "역할" 이름으로 지었어요. 레이아웃에서는 @color/이름 으로만 쓰고,
+    색을 바꾸고 싶으면 이 파일 한 곳만 고치면 앱 전체에 반영됩니다.
+    #AARRGGBB 형식에서 앞 두 자리(AA)는 투명도예요. 예) #29FFFFFF = 흰색 16%
+-->
+<resources>
+    <!-- 브랜드 / 주 색상 (짙은 국방색 계열) -->
+    <color name="primary">#FF345D46</color>
+    <color name="primary_dark">#FF244C39</color>
+    <color name="primary_light">#FF3D674F</color>
+    <color name="brand_mark">#FF325B45</color>
+    <color name="brand_mark_inner">#FFDCE8C9</color>
+
+    <!-- 배경 / 표면 -->
+    <color name="background">#FFF5F6F1</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="surface_soft">#FFF5F7F1</color>
+    <color name="surface_soft2">#FFF6F7F3</color>
+    <color name="card_stroke">#FFE7EBE4</color>
+    <color name="divider">#FFEDF0EB</color>
+    <color name="header_divider">#12233F2F</color>
+
+    <!-- 글자색 -->
+    <color name="text_primary">#FF1B2A22</color>
+    <color name="text_secondary">#FF52645A</color>
+    <color name="text_muted">#FF89938C</color>
+    <color name="text_hint">#FF7A877F</color>
+    <color name="text_kicker">#FF77907E</color>
+    <color name="icon_default">#FF4B5D52</color>
+
+    <!-- 카드 라벨 아이콘 (작은 둥근 사각형 배경) -->
+    <color name="label_icon_bg">#FFE8EEE2</color>
+    <color name="label_icon_tint">#FF41694F</color>
+
+    <!-- 짙은 카드(전역일 카드) 위의 글자 -->
+    <color name="on_dark">#FFFFFFFF</color>
+    <color name="on_dark_secondary">#FFC0D2C3</color>
+    <color name="on_dark_muted">#FFB9CCBC</color>
+    <color name="on_dark_line">#21FFFFFF</color>
+    <color name="on_dark_icon_bg">#21FFFFFF</color>
+    <color name="avatar_ring">#80FFFFFF</color>
+    <color name="promo_track">#29FFFFFF</color>
+    <color name="promo_progress">#FFCBDCAE</color>
+
+    <!-- 월급 / 적금 카드 -->
+    <color name="saving_bg">#FFEDF1E8</color>
+    <color name="saving_stroke">#FFE0E7DC</color>
+
+    <!-- 캘린더 -->
+    <color name="today_bg">#FF365E48</color>
+    <color name="today_sub">#FFD8E5D6</color>
+    <color name="event_dot">#FF9AAA8F</color>
+    <color name="event_dot_today">#FFDBE9C4</color>
+    <color name="time_badge_bg">#FFE3EBDE</color>
+    <color name="time_badge_text">#FF376047</color>
+
+    <!-- 퀘스트 / 경험치 -->
+    <color name="xp_bg">#FFEEF3E9</color>
+    <color name="level_badge">#FF42664E</color>
+    <color name="xp_track">#FFD7E0D3</color>
+    <color name="xp_start">#FF6E9271</color>
+    <color name="xp_end">#FF9EB47D</color>
+    <color name="xp_name">#FF3B5142</color>
+    <color name="xp_reward">#FF54725C</color>
+    <color name="quest_check">#FF9AAC9F</color>
+    <color name="urgent">#FFB35B4E</color>
+    <color name="dday_text">#FFA45649</color>
+    <color name="dday_bg">#FFF7E9E5</color>
+
+    <!-- 하단 내비게이션 -->
+    <color name="nav_bg">#FFFCFDF9</color>
+    <color name="nav_stroke">#FFE1E6DF</color>
+    <color name="nav_active">#FF2F5942</color>
+    <color name="nav_inactive">#FF9AA49E</color>
+    <!-- ───── 행정반 입장 화면 ───── -->
+    <color name="entry_glow">#FFE6EDDF</color>
+    <color name="emblem_tint">#FFE9F1E2</color>
+    <color name="entry_stroke">#FFE0E6DE</color>
+    <color name="entry_icon_bg">#FFE8EEE4</color>
+    <color name="entry_icon_tint">#FF3F654D</color>
+    <color name="entry_text">#FF32483A</color>
+    <color name="entry_primary_sub">#FFCCDACD</color>
+    <color name="privacy_note">#FF97A198</color>
+
+    <!-- ───── 바텀시트 / 입력 폼 ───── -->
+    <color name="sheet_bg">#FFF9FAF6</color>
+    <color name="form_label">#FF526158</color>
+    <color name="input_text">#FF293E31</color>
+    <color name="input_stroke">#FFDCE3DA</color>
+    <color name="input_focus">#FF6C8A73</color>
+    <color name="secondary_btn_stroke">#FFDBE2D8</color>
+    <color name="secondary_btn_text">#FF59675E</color>
+    <color name="chip_text">#FF718078</color>
+    <color name="chip_checked_text">#FF315740</color>
+    <color name="chip_checked_stroke">#FF7F9A84</color>
+    <color name="chip_checked_bg">#FFE6EEE2</color>
+    <color name="select_bg">#FFEDF1E9</color>
+    <color name="setting_line">#FFE4E8E1</color>
+
+    <!-- ───── 행정반 대시보드 ───── -->
+    <color name="room_bg">#FFEEF1EB</color>
+    <color name="room_kicker">#FF7B897F</color>
+    <color name="room_card_stroke">#FFE0E6DE</color>
+    <color name="room_link">#FF859188</color>
+    <color name="summary_bg">#FF294F3B</color>
+    <color name="summary_date">#FFD2DFD1</color>
+    <color name="summary_label">#FFBDCDBF</color>
+    <color name="summary_box">#17FFFFFF</color>
+    <color name="summary_mini_icon">#1AFFFFFF</color>
+    <color name="summary_small">#FFAEC1B1</color>
+    <color name="summary_dday">#FFEAD3AC</color>
+    <color name="broadcast_bg">#FFDCE8CB</color>
+    <color name="broadcast_icon_bg">#FFF8FBF4</color>
+    <color name="broadcast_text">#FF31563E</color>
+    <color name="broadcast_sub">#FF71886F</color>
+    <color name="urgent_pill_text">#FFA65347</color>
+    <color name="urgent_pill_bg">#FFF4E3DE</color>
+    <color name="reward_text">#FF416449</color>
+    <color name="reward_bg">#FFE1EBDC</color>
+    <color name="completion_text">#FF7B887F</color>
+    <color name="completion_track">#FFE8ECE6</color>
+    <color name="completion_fill">#FF759077</color>
+    <color name="completion_value">#FF48614F</color>
+    <color name="mini_week_active">#FF3B624C</color>
+    <color name="mini_week_sub">#FFDBE5DB</color>
+    <color name="event_chip_bg">#FFF5F7F2</color>
+    <color name="event_time">#FF52705C</color>
+    <color name="small_cream">#FFF4EEE2</color>
+    <color name="small_sage">#FFE1E9DC</color>
+    <color name="small_icon_bg">#B3FFFFFF</color>
+    <color name="small_icon_tint">#FF486851</color>
+    <color name="small_sub">#FF7E8D83</color>
+
+    <!-- 행정반 메뉴 팝업 -->
+    <color name="menu_bg">#FFFBFCF8</color>
+    <color name="menu_text">#FF3C5143</color>
+    <color name="menu_icon_tint">#FF466A51</color>
+
+    <!-- 전파사항 / 마음의 편지 창 -->
+    <color name="option_checked_stroke">#FF6F8C75</color>
+    <color name="option_checked_bg">#FFE4ECE0</color>
+    <color name="urgent_checked_stroke">#FFB86A5D</color>
+    <color name="urgent_checked_bg">#FFF7E5E1</color>
+    <color name="urgent_checked_text">#FF9F4D42</color>
+    <color name="note_bg">#FFE7EEE3</color>
+    <color name="note_text">#FF536E5B</color>
+</resources>

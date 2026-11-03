@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 하단 탭의 아이콘·글자 색: 선택된 탭은 짙은 초록, 나머지는 회색.
+     selector는 위에서부터 조건을 검사해서 처음 맞는 항목을 씁니다. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/nav_active" android:state_checked="true" />
+    <item android:color="@color/nav_inactive" />
+</selector>

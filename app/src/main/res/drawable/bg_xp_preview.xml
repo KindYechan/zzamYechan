@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 경험치(레벨) 미리보기 영역 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xp_bg" />
+    <corners android:radius="@dimen/radius_inner" />
+</shape>

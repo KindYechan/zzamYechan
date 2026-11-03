@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 입장 버튼 왼쪽 아이콘 상자 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/entry_icon_bg" />
+    <corners android:radius="14dp" />
+</shape>

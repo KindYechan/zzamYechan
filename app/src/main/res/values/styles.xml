@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    자주 반복되는 글자 모양을 스타일로 묶어 둔 파일.
+    레이아웃에서 style="@style/JjamText.Kicker" 처럼 쓰면 크기·색·굵기가 한 번에 적용돼요.
+    이름에 점(.)을 붙이면 앞 이름의 스타일을 물려받습니다. (JjamText.Kicker 는 JjamText 를 상속)
+-->
+<resources>
+    <style name="JjamText">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- "이번 주", "D-DAY 임박" 같은 작은 머리말 -->
+    <style name="JjamText.Kicker">
+        <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_kicker</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- "캘린더", "퀘스트" 같은 카드 제목 -->
+    <style name="JjamText.CardTitle">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.03</item>
+    </style>
+
+    <!-- 아이콘 옆 카드 라벨 ("오늘의 식단") -->
+    <style name="JjamText.CardLabel">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- 굵은 본문 (목록 제목 등) -->
+    <style name="JjamText.BodyBold">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 회색 보조 설명 -->
+    <style name="JjamText.Caption">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+
+    <!-- 오른쪽 "전체보기 >" 텍스트 버튼의 글자 -->
+    <style name="JjamText.Link">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_hint</item>
+    </style>
+
+    <!-- 하단 탭 선택 표시(Material3의 알약 모양)를 투명하게 → 원본처럼 색만 바뀌게 -->
+    <style name="JjamNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+    <!-- ───────── 입력 폼 (바텀시트) ───────── -->
+
+    <!-- 시트 제목 ("대원 정보를 입력해주세요") -->
+    <style name="JjamText.SheetTitle">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
+    <!-- 입력칸 위의 작은 이름표 ("이름", "계급") -->
+    <style name="JjamText.FormLabel">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/form_label</item>
+    </style>
+
+    <!-- 한 줄 입력칸 -->
+    <style name="JjamInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:paddingStart">13dp</item>
+        <item name="android:paddingEnd">13dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/input_text</item>
+        <item name="android:textColorHint">@color/text_muted</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <!-- 선택 상자 (Spinner) -->
+    <style name="JjamSpinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:popupBackground">@color/surface</item>
+    </style>
+
+    <!-- 기능 선택 칩 (CheckBox 의 체크 표시를 없애고 배경 색으로 선택 여부 표시) -->
+    <style name="JjamChip">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_chip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+    </style>
+
+    <!-- 주 버튼 (진한 초록). MaterialButton 은 android:background 대신 backgroundTint 로 색을 바꿔요 -->
+    <style name="JjamButton" parent="Widget.Material3.Button">
+        <item name="android:layout_height">49dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_dark</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 보조 버튼 (흰 배경 + 테두리) -->
+    <style name="JjamButton.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_height">49dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="backgroundTint">@color/surface</item>
+        <item name="strokeColor">@color/secondary_btn_stroke</item>
+        <item name="android:textColor">@color/secondary_btn_text</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- ───────── 행정반 ───────── -->
+
+    <!-- 행정반 카드 제목 ("퀘스트", "캘린더") -->
+    <style name="JjamText.RoomCardTitle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 다이얼로그 제목 ("전파사항 작성") -->
+    <style name="JjamText.DialogTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
+    <!-- 선택지 버튼 (식사/호출/긴급, 전송 시간).
+         RadioButton 의 동그라미(button)를 없애고 배경으로 선택 상태를 보여줌 -->
+    <style name="JjamOption">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_option</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/option_text_selector</item>
+    </style>
+
+    <!-- 여러 줄 입력칸 (전파 내용, 편지 내용) -->
+    <style name="JjamInput.MultiLine">
+        <item name="android:gravity">top</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">8</item>
+        <item name="android:lineSpacingMultiplier">1.3</item>
+    </style>
+</resources>

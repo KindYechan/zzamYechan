@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    layout_bottom_nav.xml — 하단 탭 (홈 | 행정반)
+    홈 화면(activity_main.xml)과 행정반 화면이 똑같이 <include> 해서 씁니다.
+    탭 목록은 menu/bottom_nav_menu.xml 에 있어요.
+
+    높이는 wrap_content: 탭 바가 아이콘+글자에 필요한 높이를 스스로 정하게 둡니다.
+    화면 맨 아래 시스템 내비게이션 바(제스처 바/뒤로가기 버튼) 영역은
+    BottomNavigationView 가 스스로 아래 여백을 넣어 처리해요.
+    그래서 MainActivity 에서는 아래쪽 여백을 0 으로 둡니다.
+-->
+<com.google.android.material.bottomnavigation.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_nav"
+    app:elevation="0dp"
+    app:itemActiveIndicatorStyle="@style/JjamNavIndicator"
+    app:itemIconTint="@color/bottom_nav_item"
+    app:itemTextColor="@color/bottom_nav_item"
+    app:labelVisibilityMode="labeled"
+    app:menu="@menu/bottom_nav_menu" />

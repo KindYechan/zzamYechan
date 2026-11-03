@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 입장 화면 위쪽의 은은한 둥근 빛 (CSS radial-gradient 를 옮김)
+     type="radial": 중심(centerY 18% 지점)에서 바깥으로 퍼지는 그라데이션 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="radial"
+        android:centerX="0.5"
+        android:centerY="0.18"
+        android:gradientRadius="220dp"
+        android:startColor="@color/entry_glow"
+        android:endColor="@color/background" />
+</shape>

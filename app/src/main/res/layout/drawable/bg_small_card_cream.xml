@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 작은 카드 (크림색) — 부대 게시판 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/small_cream" />
+    <corners android:radius="19dp" />
+</shape>

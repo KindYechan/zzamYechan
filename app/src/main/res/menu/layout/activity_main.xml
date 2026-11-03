@@ -1,0 +1,1140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_main.xml — 홈 화면 (MainActivity 가 setContentView 로 띄움)
+
+    구조 (위에서 아래로):
+      상단바            ← include (layout_top_bar.xml)
+      스크롤 영역        ← weight=1 이라 상단바·하단탭을 뺀 나머지 공간을 모두 차지
+          ① 전역일 카드      card_discharge
+          ② 오늘의 식단 카드  card_meal
+          ③ 월급 | 적금 카드  card_salary / card_saving
+          ④ 이번 주 캘린더    card_schedule
+          ⑤ 퀘스트 카드      card_quest
+      하단 탭           ← include (layout_bottom_nav.xml)
+
+    맨 바깥 id 가 "main" 인 이유: MainActivity 템플릿 코드의
+    findViewById(R.id.main) 이 이 id 를 찾기 때문이에요.
+
+    지금 들어있는 글자/숫자는 피그마의 예시 값이에요. 실제 값은 Java에서 넣어주세요.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_bar" />
+
+    <!-- 상단바 아래 얇은 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/header_divider" />
+
+    <!-- ScrollView 안에는 자식이 딱 하나만 올 수 있어서 LinearLayout 하나로 감쌌어요 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_padding_h"
+            android:paddingTop="@dimen/screen_padding_top"
+            android:paddingEnd="@dimen/screen_padding_h"
+            android:paddingBottom="24dp">
+
+            <!-- ───────────── ① 전역일 카드 ───────────── -->
+            <LinearLayout
+                android:id="@+id/card_discharge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_discharge_card"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="18dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- 프로필 사진: 배경에 흰 링, padding 만큼 안쪽에 사진 -->
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_avatar_ring"
+                        android:contentDescription="@string/home_profile_desc"
+                        android:padding="2dp"
+                        android:src="@drawable/img_avatar" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_rank"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_rank_sample"
+                            android:textColor="@color/on_dark_secondary"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:letterSpacing="-0.02"
+                            android:text="@string/home_name_sample"
+                            android:textColor="@color/on_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <!-- 세로 구분선 -->
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="17dp"
+                        android:background="@color/on_dark_line" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_days_left_label"
+                            android:textColor="@color/on_dark_muted"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="true"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_days_left"
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:letterSpacing="-0.05"
+                                android:text="@string/home_days_left_value"
+                                android:textColor="@color/on_dark"
+                                android:textSize="@dimen/text_big_number"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                style="@style/JjamText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:text="@string/home_days_unit"
+                                android:textColor="@color/on_dark"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_discharge_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/home_discharge_date"
+                            android:textColor="@color/on_dark_muted"
+                            android:textSize="@dimen/text_tiny" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 가로 구분선 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="17dp"
+                    android:background="@color/on_dark_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_next_promotion"
+                        style="@style/JjamText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/home_next_promotion"
+                        android:textColor="@color/on_dark_secondary"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_promotion_percent"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_promotion_percent"
+                        android:textColor="@color/on_dark"
+                        android:textSize="@dimen/text_tiny"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 진급 진행률. max=1000 으로 두면 14.3% → progress=143 처럼 소수점 한 자리까지 표현 가능 -->
+                <ProgressBar
+                    android:id="@+id/progress_promotion"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="8dp"
+                    android:max="1000"
+                    android:progress="143"
+                    android:progressDrawable="@drawable/progress_promotion" />
+            </LinearLayout>
+
+            <!-- ───────────── ② 오늘의 식단 카드 ───────────── -->
+            <LinearLayout
+                android:id="@+id/card_meal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_gap"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/label_icon_box"
+                    android:layout_height="@dimen/label_icon_box"
+                    android:background="@drawable/bg_label_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="5.5dp"
+                    android:src="@drawable/ic_board"
+                    app:tint="@color/label_icon_tint" />
+
+                <TextView
+                    style="@style/JjamText.CardLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/home_meal_title" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/btn_meal_setup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+    
+                    <TextView
+                        style="@style/JjamText.Link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_setup" />
+    
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron"
+                        app:tint="@color/text_hint" />
+                </LinearLayout>
+                </LinearLayout>
+
+                <!-- 식단이 없을 때 보여주는 안내 (식단이 있으면 Java에서 GONE 처리) -->
+                <LinearLayout
+                    android:id="@+id/layout_meal_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_soft_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="34dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_tray" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/JjamText.BodyBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_meal_empty_title" />
+
+                        <TextView
+                            style="@style/JjamText.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/home_meal_empty_desc" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────────── ③ 월급 | 적금 (반반 나누기: width=0dp + weight=1) ───────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_gap"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/card_salary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/label_icon_box"
+                    android:layout_height="@dimen/label_icon_box"
+                    android:background="@drawable/bg_label_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="5.5dp"
+                    android:src="@drawable/ic_wallet"
+                    app:tint="@color/label_icon_tint" />
+
+                <TextView
+                    style="@style/JjamText.CardLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/home_salary_title" />
+                </LinearLayout>
+
+                <!-- 숫자와 "원"을 따로 두고 baselineAligned 로 글자 바닥선을 맞춤 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_salary_value"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.05"
+                        android:maxLines="1"
+                        android:text="@string/home_salary_value"
+                        android:textSize="@dimen/text_money"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/unit_won"
+                        android:textSize="@dimen/text_caption"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_salary_sub"
+                    style="@style/JjamText.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/home_salary_dday" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/card_saving"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_card_saving"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/label_icon_box"
+                    android:layout_height="@dimen/label_icon_box"
+                    android:background="@drawable/bg_label_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="5.5dp"
+                    android:src="@drawable/ic_rank"
+                    app:tint="@color/label_icon_tint" />
+
+                <TextView
+                    style="@style/JjamText.CardLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/home_saving_title" />
+                </LinearLayout>
+
+                <!-- 숫자와 "원"을 따로 두고 baselineAligned 로 글자 바닥선을 맞춤 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_saving_value"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.05"
+                        android:maxLines="1"
+                        android:text="@string/home_saving_value"
+                        android:textSize="@dimen/text_money"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/unit_won"
+                        android:textSize="@dimen/text_caption"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_saving_sub"
+                    style="@style/JjamText.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/home_saving_progress" />
+            </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────────── ④ 이번 주 캘린더 카드 ───────────── -->
+            <LinearLayout
+                android:id="@+id/card_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_gap"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/JjamText.Kicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_calendar_kicker" />
+
+                        <TextView
+                            style="@style/JjamText.CardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/home_calendar_title" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_calendar_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+    
+                    <TextView
+                        style="@style/JjamText.Link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_view_all" />
+    
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron"
+                        app:tint="@color/text_hint" />
+                </LinearLayout>
+                </LinearLayout>
+
+                <!-- 요일 7칸: 칸(36dp) 사이에 weight 가 있는 Space 를 넣어 양끝 정렬(space-between).
+                     칸마다 안쪽 id(tv_week_label 등)가 같아요 → Java에서
+                     findViewById(R.id.week_wed).findViewById(R.id.tv_week_date) 처럼 칸을 먼저 찾고 그 안에서 찾으면 됩니다.
+                     점(dot_week_event)은 일정이 있는 날만 VISIBLE, 없는 날은 INVISIBLE(자리는 유지) -->
+                <LinearLayout
+                    android:id="@+id/week_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/week_mon"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="월"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="14"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_tue"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="화"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="15"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_wed"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_week_today"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수"
+                        android:textColor="@color/today_sub"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="16"
+                        android:textColor="@color/on_dark"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event_today"
+                        android:visibility="visible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_thu"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="목"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="17"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_fri"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="금"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="18"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="visible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_sat"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="토"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="19"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:id="@+id/week_sun"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_week_label"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_week_date"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="20"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/dot_week_event"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_dot_event"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item_today_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_schedule_item"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/tv_schedule_time"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_time_badge"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/home_schedule_time"
+                        android:textColor="@color/time_badge_text"
+                        android:textSize="@dimen/text_tiny"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_schedule_title"
+                            style="@style/JjamText.BodyBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_schedule_title" />
+
+                        <TextView
+                            android:id="@+id/tv_schedule_desc"
+                            style="@style/JjamText.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/home_schedule_desc" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ───────────── ⑤ 퀘스트 카드 ───────────── -->
+            <LinearLayout
+                android:id="@+id/card_quest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_gap"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/JjamText.Kicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_quest_kicker"
+                            android:textColor="@color/urgent" />
+
+                        <TextView
+                            style="@style/JjamText.CardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/home_quest_title" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_quest_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+    
+                    <TextView
+                        style="@style/JjamText.Link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_view_all" />
+    
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron"
+                        app:tint="@color/text_hint" />
+                </LinearLayout>
+                </LinearLayout>
+
+                <!-- 다른 파일(layout_xp_preview.xml)을 불러와 끼워넣기 -->
+                <include
+                    layout="@layout/layout_xp_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp" />
+
+                <!-- 퀘스트 목록 (지금은 2개 고정. 개수가 바뀌면 나중에 RecyclerView 로 바꾸는 걸 추천) -->
+                <LinearLayout
+                    android:id="@+id/list_quest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                <!-- 구분선 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider" />
+    
+                <LinearLayout
+                    android:id="@+id/row_quest1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="1dp"
+                    android:paddingTop="11dp"
+                    android:paddingEnd="1dp"
+                    android:paddingBottom="11dp">
+    
+                    <!-- 완료 체크 동그라미. Java에서 누르면 채워진 모양으로 바꿔 보세요 -->
+                    <View
+                        android:id="@+id/check_quest1"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:background="@drawable/bg_quest_check"
+                        android:clickable="true"
+                        android:focusable="true" />
+    
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:id="@+id/tv_quest1_title"
+                            style="@style/JjamText.BodyBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/quest1_title" />
+    
+                        <TextView
+                            android:id="@+id/tv_quest1_due"
+                            style="@style/JjamText.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/quest1_due"
+                            android:textSize="@dimen/text_tiny" />
+                    </LinearLayout>
+    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:id="@+id/tv_quest1_dday"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_dday_badge"
+                            android:paddingStart="7dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="7dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/quest1_dday"
+                            android:textColor="@color/dday_text"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+    
+                        <TextView
+                            android:id="@+id/tv_quest1_xp"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/quest1_xp"
+                            android:textColor="@color/xp_reward"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 구분선 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider" />
+    
+                <LinearLayout
+                    android:id="@+id/row_quest2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="1dp"
+                    android:paddingTop="11dp"
+                    android:paddingEnd="1dp"
+                    android:paddingBottom="11dp">
+    
+                    <!-- 완료 체크 동그라미. Java에서 누르면 채워진 모양으로 바꿔 보세요 -->
+                    <View
+                        android:id="@+id/check_quest2"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:background="@drawable/bg_quest_check"
+                        android:clickable="true"
+                        android:focusable="true" />
+    
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:id="@+id/tv_quest2_title"
+                            style="@style/JjamText.BodyBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/quest2_title" />
+    
+                        <TextView
+                            android:id="@+id/tv_quest2_due"
+                            style="@style/JjamText.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/quest2_due"
+                            android:textSize="@dimen/text_tiny" />
+                    </LinearLayout>
+    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:id="@+id/tv_quest2_dday"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_dday_badge"
+                            android:paddingStart="7dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="7dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/quest2_dday"
+                            android:textColor="@color/dday_text"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+    
+                        <TextView
+                            android:id="@+id/tv_quest2_xp"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/quest2_xp"
+                            android:textColor="@color/xp_reward"
+                            android:textSize="@dimen/text_tiny"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 탭 (layout_bottom_nav.xml 을 불러옴. 행정반 화면에서도 똑같이 include 해요) -->
+    <include layout="@layout/layout_bottom_nav" />
+
+</LinearLayout>

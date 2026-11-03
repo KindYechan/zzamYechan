@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 칩 글자색: 체크되면 진한 초록 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/chip_checked_text" android:state_checked="true" />
+    <item android:color="@color/chip_text" />
+</selector>

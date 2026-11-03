@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 작은 카드 (세이지색) — 진급 계산기 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/small_sage" />
+    <corners android:radius="19dp" />
+</shape>
