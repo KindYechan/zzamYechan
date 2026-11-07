@@ -556,7 +556,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_mon_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -565,7 +565,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_mon_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -576,7 +576,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_mon_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -597,7 +597,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_tue_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -606,7 +606,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_tue_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -617,7 +617,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_tue_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -639,7 +639,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_wed_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -648,7 +648,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_wed_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -659,7 +659,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_wed_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -680,7 +680,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_thu_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -689,7 +689,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_thu_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -700,7 +700,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_thu_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -721,7 +721,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_fri_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -730,7 +730,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_fri_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -741,7 +741,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_fri_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -762,7 +762,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_sat_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -771,7 +771,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_sat_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -782,7 +782,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_sat_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"
@@ -803,7 +803,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        android:id="@+id/tv_week_label"
+                        android:id="@+id/tv_week_sun_label"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -812,7 +812,7 @@
                         android:textSize="@dimen/text_tiny" />
 
                     <TextView
-                        android:id="@+id/tv_week_date"
+                        android:id="@+id/tv_week_sun_date"
                         style="@style/JjamText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -823,7 +823,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dot_week_event"
+                        android:id="@+id/dot_week_sun_event"
                         android:layout_width="4dp"
                         android:layout_height="4dp"
                         android:layout_marginTop="4dp"

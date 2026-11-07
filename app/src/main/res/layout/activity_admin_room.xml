@@ -556,7 +556,7 @@
                         android:paddingBottom="7dp">
 
                         <TextView
-                            android:id="@+id/tv_mini_label"
+                            android:id="@+id/tv_mini_mon_label"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -565,7 +565,7 @@
                             android:textSize="@dimen/text_tiny" />
 
                         <TextView
-                            android:id="@+id/tv_mini_date"
+                            android:id="@+id/tv_mini_mon_date"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -588,7 +588,7 @@
                         android:paddingBottom="7dp">
 
                         <TextView
-                            android:id="@+id/tv_mini_label"
+                            android:id="@+id/tv_mini_tue_label"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -597,7 +597,7 @@
                             android:textSize="@dimen/text_tiny" />
 
                         <TextView
-                            android:id="@+id/tv_mini_date"
+                            android:id="@+id/tv_mini_tue_date"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -621,7 +621,7 @@
                         android:paddingBottom="7dp">
 
                         <TextView
-                            android:id="@+id/tv_mini_label"
+                            android:id="@+id/tv_mini_wed_label"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -630,7 +630,7 @@
                             android:textSize="@dimen/text_tiny" />
 
                         <TextView
-                            android:id="@+id/tv_mini_date"
+                            android:id="@+id/tv_mini_wed_date"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -653,7 +653,7 @@
                         android:paddingBottom="7dp">
 
                         <TextView
-                            android:id="@+id/tv_mini_label"
+                            android:id="@+id/tv_mini_thu_label"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -662,7 +662,7 @@
                             android:textSize="@dimen/text_tiny" />
 
                         <TextView
-                            android:id="@+id/tv_mini_date"
+                            android:id="@+id/tv_mini_thu_date"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -685,7 +685,7 @@
                         android:paddingBottom="7dp">
 
                         <TextView
-                            android:id="@+id/tv_mini_label"
+                            android:id="@+id/tv_mini_fri_label"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -694,7 +694,7 @@
                             android:textSize="@dimen/text_tiny" />
 
                         <TextView
-                            android:id="@+id/tv_mini_date"
+                            android:id="@+id/tv_mini_fri_date"
                             style="@style/JjamText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
