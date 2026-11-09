@@ -352,6 +352,7 @@
 
                 <!-- 홈에서 쓴 경험치 조각을 여기서도 재사용 -->
                 <include
+                    android:id="@+id/xp_perview"
                     layout="@layout/layout_xp_preview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -990,6 +991,8 @@
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/layout_bottom_nav" />
+    <include
+        android:id="@+id/bottom_nav"
+        layout="@layout/layout_bottom_nav" />
 
 </LinearLayout>

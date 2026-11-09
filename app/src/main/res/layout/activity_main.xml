@@ -25,7 +25,8 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_bar" />
+    <include android:id="@+id/top_bar"
+        layout="@layout/layout_top_bar" />
 
     <!-- 상단바 아래 얇은 구분선 -->
     <View
@@ -946,6 +947,7 @@
 
                 <!-- 다른 파일(layout_xp_preview.xml)을 불러와 끼워넣기 -->
                 <include
+                    android:id="@+id/xp_perview"
                     layout="@layout/layout_xp_preview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1135,6 +1137,7 @@
     </ScrollView>
 
     <!-- 하단 탭 (layout_bottom_nav.xml 을 불러옴. 행정반 화면에서도 똑같이 include 해요) -->
-    <include layout="@layout/layout_bottom_nav" />
+    <include android:id="@+id/bottom_nav"
+        layout="@layout/layout_bottom_nav" />
 
 </LinearLayout>

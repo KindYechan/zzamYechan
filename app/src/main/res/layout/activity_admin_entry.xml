@@ -24,7 +24,8 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_bar" />
+    <include android:id="@+id/top_bar"
+        layout="@layout/layout_top_bar" />
 
     <View
         android:layout_width="match_parent"
@@ -232,6 +233,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/layout_bottom_nav" />
+    <include android:id="@+id/bottom_nav"
+        layout="@layout/layout_bottom_nav" />
 
 </LinearLayout>

@@ -189,4 +189,6 @@
     <string name="letter_submit">익명으로 보내기</string>
     <!-- 예약 전송일 때: getString(R.string.letter_submit_later, "3시간") → "3시간 후 예약 전송" -->
     <string name="letter_submit_later">%1$s 후 예약 전송</string>
+
+    <string name="unit_name">%1$s 행정반</string>
 </resources>
