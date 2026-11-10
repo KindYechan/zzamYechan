@@ -29,13 +29,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // 식단 설정 토스트
         binding.btnMealSetup.setOnClickListener(view ->{
             Toast.makeText(this, "식단을 설정합니다", Toast.LENGTH_SHORT).show();
         });
+
+        // 버튼 클릭리스너 연습 및 테스트
         binding.tvDaysLeft.setOnClickListener(view -> {
             binding.tvDaysLeft.setText("100");
         });
 
+        // 체크박스 버튼 연습 및 테스트
         binding.checkQuest1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -48,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // 알림 테스트
         binding.topBar.btnNotifications.setOnClickListener(view -> {
             Toast.makeText(this, "알림을 표시합니다", Toast.LENGTH_SHORT).show();
         });
 
+        // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();
         nav.setSelectedItemId(R.id.nav_home);
         nav.setOnItemSelectedListener(item -> {

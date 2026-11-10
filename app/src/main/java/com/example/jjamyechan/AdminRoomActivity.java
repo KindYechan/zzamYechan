@@ -25,10 +25,12 @@ public class AdminRoomActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
+
+        // intent로 전달된 데이터 저장부
         String unitName = getIntent().getStringExtra("unit_name");
         int memberCount = getIntent().getIntExtra("member_count", 0);
         binding.tvRoomTitle.setText(getString(R.string.unit_name, unitName));
-
+        // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();
         nav.setSelectedItemId(R.id.nav_admin);
         nav.setOnItemSelectedListener(item -> {
