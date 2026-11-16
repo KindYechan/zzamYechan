@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.jjamyechan.databinding.ActivityAdminRoomBinding;
 import com.example.jjamyechan.databinding.DialogBroadcastBinding;
 import com.example.jjamyechan.databinding.DialogLetterBinding;
+import com.example.jjamyechan.databinding.PopupRoomMenuBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminRoomActivity extends AppCompatActivity {
@@ -81,59 +83,32 @@ public class AdminRoomActivity extends AppCompatActivity {
 
         // 마음의 편지
         binding.cardLetter.setOnClickListener(view -> {
-            // dialog 생성부
-            Dialog dialog = new Dialog(this);
-            DialogLetterBinding dialogBinding = DialogLetterBinding.inflate(getLayoutInflater());
-            dialog.setContentView(dialogBinding.getRoot());
-
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            dialog.show();
-
-            // 몇 시간 후 예약전송할지 고르는거
-            RadioButton[] delays = {dialogBinding.rbDelayNow, dialogBinding.rbDelay1h, dialogBinding.rbDelay3h,
-                    dialogBinding.rbDelay6h, dialogBinding.rbDelay1d, dialogBinding.rbDelayCustom};
-            // for문 돌면서
-            for(RadioButton delay : delays){
-                delay.setOnClickListener(view2 -> {
-                    for(RadioButton allDelay : delays) {
-                        allDelay.setChecked(false);
-                    }
-                    delay.setChecked(true);
-
-                    // 사용자 지정시간 뷰 보여줌
-                    if(delay.equals(dialogBinding.rbDelayCustom)) {
-                        dialogBinding.tvCustomTime.setVisibility(ViewGroup.VISIBLE);
-                    }
-                    else {
-                        dialogBinding.tvCustomTime.setVisibility(ViewGroup.GONE);
-                    }
-
-                    // OO시간 후 예약전송 메세지 세팅
-                    if(delay.equals(dialogBinding.rbDelayNow)){
-                        dialogBinding.btnSubmit.setText(getString(R.string.letter_submit));
-                    }
-                    else{
-                        dialogBinding.btnSubmit.setText(getString(R.string.letter_submit_later, delay.getText()));
-                    }
-                });
-            }
-            // x버튼 누르면
-            dialogBinding.btnClose.setOnClickListener(view2 -> {
-                dialog.dismiss();
-            });
-            // 보내기 버튼 누르면 (서버랑 연동 예정)
-            dialogBinding.btnSubmit.setOnClickListener(view2 -> {
-                String letter = dialogBinding.etLetter.getText().toString().trim();
-                if(letter.isEmpty()){
-                    dialogBinding.etLetter.setError("내용을 입력해주세요");
-                    return;
-                }
-                Toast.makeText(this, letter, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            });
+            showLettetDialog();
         });
+        // 팝업 햄버거버튼
+        binding.btnRoomMenu.setOnClickListener(view -> {
+            // 팝업 생성부
+            PopupRoomMenuBinding menuBinding = PopupRoomMenuBinding.inflate(getLayoutInflater());
+            // 화면이 먹어서 dimen에 있는 width를 불러와서 화면에 적용
+            int width = getResources().getDimensionPixelSize(R.dimen.popup_menu_width);
+            PopupWindow popup = new PopupWindow(menuBinding.getRoot(), width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            // 그림자
+            popup.setElevation(16);
+            popup.showAsDropDown(binding.btnRoomMenu);
+
+//            menuBinding.menuItemQuest.setOnClickListener();
+//            menuBinding.menuItemCalendar.setOnClickListener();
+//            menuBinding.menuItemBoard.setOnClickListener();
+//            menuBinding.menuItemCalculator.setOnClickListener();
+            menuBinding.menuItemLetter.setOnClickListener(view2 -> {
+                popup.dismiss();
+                showLettetDialog();
+            });
+//            menuBinding.menuItemEdit.setOnClickListener();
+//            menuBinding.menuItemLog.setOnClickListener();
+        });
+
+
         // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();
         nav.setSelectedItemId(R.id.nav_admin);
@@ -145,6 +120,61 @@ public class AdminRoomActivity extends AppCompatActivity {
                 return true;
             }
             return true;
+        });
+    }
+
+    private void showLettetDialog() {
+        // dialog 생성부
+        Dialog dialog = new Dialog(this);
+        DialogLetterBinding dialogBinding = DialogLetterBinding.inflate(getLayoutInflater());
+        dialog.setContentView(dialogBinding.getRoot());
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialog.show();
+
+        // 몇 시간 후 예약전송할지 고르는거
+        RadioButton[] delays = {dialogBinding.rbDelayNow, dialogBinding.rbDelay1h, dialogBinding.rbDelay3h,
+                dialogBinding.rbDelay6h, dialogBinding.rbDelay1d, dialogBinding.rbDelayCustom};
+        // for문 돌면서
+        for(RadioButton delay : delays){
+            delay.setOnClickListener(view2 -> {
+                for(RadioButton allDelay : delays) {
+                    allDelay.setChecked(false);
+                }
+                delay.setChecked(true);
+
+                // 사용자 지정시간 뷰 보여줌
+                if(delay.equals(dialogBinding.rbDelayCustom)) {
+                    dialogBinding.tvCustomTime.setVisibility(ViewGroup.VISIBLE);
+                }
+                else {
+                    dialogBinding.tvCustomTime.setVisibility(ViewGroup.GONE);
+                }
+
+                // OO시간 후 예약전송 메세지 세팅
+                if(delay.equals(dialogBinding.rbDelayNow)){
+                    dialogBinding.btnSubmit.setText(getString(R.string.letter_submit));
+                }
+                else{
+                    dialogBinding.btnSubmit.setText(getString(R.string.letter_submit_later, delay.getText()));
+                }
+            });
+        }
+        // x버튼 누르면
+        dialogBinding.btnClose.setOnClickListener(view2 -> {
+            dialog.dismiss();
+        });
+        // 보내기 버튼 누르면 (서버랑 연동 예정)
+        dialogBinding.btnSubmit.setOnClickListener(view2 -> {
+            String letter = dialogBinding.etLetter.getText().toString().trim();
+            if(letter.isEmpty()){
+                dialogBinding.etLetter.setError("내용을 입력해주세요");
+                return;
+            }
+            Toast.makeText(this, letter, Toast.LENGTH_LONG).show();
+            dialog.dismiss();
         });
     }
 }
