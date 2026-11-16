@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로그인 / 회원가입 화면 전용 글자 (이름 앞에 auth_) -->
+<resources>
+    <string name="auth_kicker">군 생활을 더 가볍게</string>
+
+    <!-- 로그인 -->
+    <string name="auth_login_title">다시 만나서 반가워요</string>
+    <string name="auth_login_desc">아이디와 비밀번호를 입력해주세요.</string>
+    <string name="auth_label_username">아이디</string>
+    <string name="auth_hint_username">영문, 숫자 4자 이상</string>
+    <string name="auth_label_password">비밀번호</string>
+    <string name="auth_hint_password">8자 이상 입력해주세요</string>
+    <string name="auth_no_account">아직 계정이 없나요?</string>
+    <string name="auth_go_signup">회원가입</string>
+    <string name="auth_login">로그인</string>
+    <string name="auth_processing">처리 중…</string>
+
+    <!-- 회원가입 -->
+    <string name="auth_signup_title">짬인지와 함께 시작해요</string>
+    <string name="auth_signup_desc">복무 정보를 설정하고 나만의 군 생활 대시보드를 만들어보세요.</string>
+    <string name="auth_label_name">이름</string>
+    <string name="auth_hint_name">이름을 입력해주세요</string>
+    <string name="auth_label_member_type">유형</string>
+    <string name="auth_type_soldier">병사</string>
+    <string name="auth_type_officer">간부</string>
+    <string name="auth_label_rank">계급</string>
+    <string name="auth_label_enlist_date">입대일</string>
+    <string name="auth_label_discharge_date">전역일</string>
+    <string name="auth_date_sample">2026-11-16</string>
+    <string name="auth_date_help">전역일은 입대일 기준 1년 6개월 뒤로 자동 설정되며 직접 수정할 수 있어요.</string>
+    <string name="auth_signup">짬인지 시작하기</string>
+    <string name="auth_go_login">이미 계정이 있어요 · 로그인</string>
+
+    <!-- 오류 메시지: tv_auth_error 에 넣어서 보여 주세요 -->
+    <string name="auth_error_empty">아이디와 비밀번호를 입력해주세요.</string>
+    <string name="auth_error_login">아이디 또는 비밀번호를 확인해주세요.</string>
+    <string name="auth_error_username">아이디는 영문, 숫자, _, - 조합 4~32자로 입력해주세요.</string>
+    <string name="auth_error_password">비밀번호는 8자 이상 입력해주세요.</string>
+    <string name="auth_error_name">이름과 유형을 확인해주세요.</string>
+    <string name="auth_error_dates">입대일과 전역일을 확인해주세요.</string>
+    <string name="auth_error_duplicate">이미 사용 중인 아이디입니다.</string>
+    <string name="auth_error_unknown">회원가입 중 문제가 발생했습니다. 입력 내용을 확인해주세요.</string>
+</resources>

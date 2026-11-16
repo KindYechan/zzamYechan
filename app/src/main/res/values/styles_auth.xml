@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로그인 / 회원가입 화면 전용 스타일 (기존 styles.xml 의 스타일을 물려받음) -->
+<resources>
+    <!-- 입력칸 위 이름표 -->
+    <style name="AuthLabel" parent="JjamText.FormLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">13dp</item>
+    </style>
+
+    <!-- 날짜 칸: 키보드로 치지 않고, 누르면 DatePickerDialog 가 뜨는 TextView -->
+    <style name="AuthDateField" parent="JjamInput">
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:inputType">none</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingEnd">32dp</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로그인 / 회원가입 화면 전용 색. 이름 앞에 auth_ 를 붙여 기존 색과 겹치지 않게 했어요. -->
+<resources>
+    <color name="auth_bg">#FFEDF0E9</color>
+    <color name="auth_glow">#FFDFE9D8</color>
+    <color name="auth_card_bg">#FFFAFBF7</color>
+    <color name="auth_card_stroke">#1A365340</color>
+    <color name="auth_kicker">#FF66806D</color>
+    <color name="auth_title">#FF22372A</color>
+    <color name="auth_desc">#FF7D8B82</color>
+    <color name="auth_help">#FF88958C</color>
+    <color name="auth_link">#FF315740</color>
+    <color name="auth_error_text">#FF994E42</color>
+    <color name="auth_error_bg">#FFF5E6E2</color>
+</resources>

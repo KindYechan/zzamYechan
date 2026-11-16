@@ -35,4 +35,7 @@
     <dimen name="text_brand">19sp</dimen>
     <dimen name="text_money">21sp</dimen>
     <dimen name="text_big_number">36sp</dimen>  <!-- 남은 복무일 숫자 -->
+
+    <!-- 행정반 햄버거 버튼 크기 -->
+    <dimen name="popup_menu_width">220dp</dimen>
 </resources>

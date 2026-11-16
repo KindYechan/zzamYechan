@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로그인 화면 배경: 위쪽 가운데에서 퍼지는 은은한 초록빛 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="radial"
+        android:centerX="0.5"
+        android:centerY="0"
+        android:gradientRadius="300dp"
+        android:startColor="@color/auth_glow"
+        android:endColor="@color/auth_bg" />
+</shape>
