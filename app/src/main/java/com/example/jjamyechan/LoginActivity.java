@@ -40,9 +40,11 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
+            if (!UserManager.login(username, password)) {
+                binding.etPassword.setError(getString(R.string.auth_error_login));
+                return;
+            }
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("username", username);
-            intent.putExtra("password", password);
             startActivity(intent);
             finish();
         });

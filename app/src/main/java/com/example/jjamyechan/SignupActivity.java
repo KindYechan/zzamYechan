@@ -89,13 +89,14 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(this, "전역일이 입대일보다 이전입니다", Toast.LENGTH_LONG).show();
                 return;
             }
+            User user = new User(username, name, type, rank, enlistDate.toString(), dischargeDate.toString());
+            if (!UserManager.signup(user, password)) {
+                binding.etUsername.setError(getString(R.string.auth_error_duplicate));
+                return;
+            }
 
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("username", username);
-            intent.putExtra("password", password);
-            intent.putExtra("name", name);
-            intent.putExtra("type", type);
-            intent.putExtra("rank", rank);
+
             // 이거 하면 쌓인 화면을 모두 지워버림
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
