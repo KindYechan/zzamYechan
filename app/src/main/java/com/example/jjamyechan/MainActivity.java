@@ -2,6 +2,7 @@ package com.example.jjamyechan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,34 +30,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 식단 설정 토스트
-        binding.btnMealSetup.setOnClickListener(view ->{
-            Toast.makeText(this, "식단을 설정합니다", Toast.LENGTH_SHORT).show();
-        });
-
-        // 버튼 클릭리스너 연습 및 테스트
-        binding.tvDaysLeft.setOnClickListener(view -> {
-            binding.tvDaysLeft.setText("100");
-        });
-
-        // 체크박스 버튼 연습 및 테스트
-        binding.checkQuest1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                isQuest1Checked = !isQuest1Checked;
-                if(!isQuest1Checked){
-                    binding.checkQuest1.setAlpha(0.4f);
-                }
-                else{
-                    binding.checkQuest1.setAlpha(1.0f);
-                }
-            }
-        });
-
-        // 알림 테스트
-        binding.topBar.btnNotifications.setOnClickListener(view -> {
-            Toast.makeText(this, "알림을 표시합니다", Toast.LENGTH_SHORT).show();
-        });
+        // User 카드 설정
+        User currentUser = UserManager.getCurrentUser();
+        binding.tvRank.setText(currentUser.getRank());
+        binding.tvName.setText(currentUser.getName());
+        binding.tvDaysLeft.setText(currentUser.getLeftDays());
+        binding.tvDischargeDate.setText("전역일 " + currentUser.getDischargeDate());
 
         // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();

@@ -64,7 +64,6 @@ public class UserManager {
     public static User getCurrentUser() {
         return currentUser;
     }
-
     // 지금 로그인인지
     public static boolean isLoggedIn() {
         return currentUser != null;
