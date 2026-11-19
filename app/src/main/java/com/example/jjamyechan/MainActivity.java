@@ -34,8 +34,14 @@ public class MainActivity extends AppCompatActivity {
         User currentUser = UserManager.getCurrentUser();
         binding.tvRank.setText(currentUser.getRank());
         binding.tvName.setText(currentUser.getName());
-        binding.tvDaysLeft.setText(currentUser.getLeftDays());
+        binding.tvDaysLeft.setText(Long.toString(currentUser.getLeftDays()));
         binding.tvDischargeDate.setText("전역일 " + currentUser.getDischargeDate());
+        binding.tvPromotionPercent.setText(Double.toString(currentUser.getServiceProgress()) + '%');
+        binding.progressPromotion.setProgress((int) (currentUser.getServiceProgress() * 10));
+
+
+        binding.tvSalaryValue.setText(currentUser.getSalary());
+
 
         // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();

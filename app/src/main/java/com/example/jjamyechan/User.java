@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.time.temporal.ChronoUnit;
 public class User {
-    private String username, name, memberType, rank, enlistmentDate, dischargeDate;
+
+    // (왼쪽부터) 이메일, 이름, 병or간부, 계급, 입대일, 전역일, 부대코드, 역할(수정권한)
+    private String email, name, memberType, rank, enlistmentDate, dischargeDate, unitCode, role;
 
     public User(){}
 
-    public User(String username, String name, String memberType, String rank, String enlistmentDate, String dischargeDate) {
-        this.username = username;
+    public User(String email, String name, String memberType, String rank, String enlistmentDate, String dischargeDate) {
+        this.email = email;
         this.name = name;
         this.memberType = memberType;
         this.rank = rank;
@@ -17,8 +19,9 @@ public class User {
         this.dischargeDate = dischargeDate;
     }
 
-    public String getUsername() {
-        return username;
+    // getter
+    public String getEmail() {
+        return email;
     }
     public String getName() {
         return name;
@@ -37,14 +40,42 @@ public class User {
         return dischargeDate;
     }
 
-    public String getLeftDays(){
-        LocalDate start = LocalDate.parse(enlistmentDate);
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
+    }
+    // 남은 전역일 계산
+    public Long getLeftDays(){
         LocalDate end = LocalDate.parse(dischargeDate);
 
-        return ChronoUnit.DAYS.between(start, end);
+        return ChronoUnit.DAYS.between(LocalDate.now(), end);
     }
-    public void setUsername(String userName) {
-        this.username = userName;
+    public double getServiceProgress(){
+        double allDay = ChronoUnit.DAYS.between(LocalDate.parse(enlistmentDate), LocalDate.parse(dischargeDate));
+        return Math.floor((1 - getLeftDays() / allDay) * 1000) / 10;
+    }
+
+    public String getSalary(){
+        if (rank.equals("private"))
+            return "750,000";
+        else if (rank.equals("private-first-class")) {
+            return "900,000";
+        } else if (rank.equals("corporal")) {
+            return "1,200,000";
+        } else if (rank.equals("sergean")) {
+            return "1,500,000";
+        }
+        else{
+            return "2,000,000";
+        }
+    }
+
+    // setter
+    public void setEmail(String email) {
+        this.email = email;
     }
     public void setName(String name) {
         this.name = name;
@@ -63,18 +94,24 @@ public class User {
     public void setDischargeDate(String dischargeDate) {
         this.dischargeDate = dischargeDate;
     }
-
-
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", memberType='" + memberType + '\'' +
                 ", rank='" + rank + '\'' +
                 ", enlistmentDate='" + enlistmentDate + '\'' +
                 ", dischargeDate='" + dischargeDate + '\'' +
+                ", unitCode='" + unitCode + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 
@@ -82,11 +119,11 @@ public class User {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(username, user.username);
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(username);
+        return Objects.hashCode(email);
     }
 }

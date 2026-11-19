@@ -185,6 +185,7 @@
 
                     <!-- 긴박한 퀘스트 -->
                     <LinearLayout
+                        android:id="@+id/btn_urgent_quest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_summary_box"

@@ -17,23 +17,23 @@ public class UserManager {
     // 테스트용 계정이 필요하면 아래 주석을 풀어 쓰세요. (제출 전에는 다시 지우기)
     // 앱이 켜질 때 한 번 실행돼서, 매번 회원가입하지 않고 바로 로그인해 볼 수 있어요.
     //
-    // static {
-    //     User test = new User("test", "테스트", "soldier", "private", "2026-01-01", "2027-07-01");
-    //     users.put(test.getUsername(), test);
-    //     passwords.put(test.getUsername(), "12345678");
-    // }
+     static {
+         User test = new User("test", "테스트", "soldier", "private", "2026-01-01", "2027-07-01");
+         users.put(test.getEmail(), test);
+         passwords.put(test.getEmail(), "12345678");
+     }
 
     // 회원가입
     public static boolean signup(User user, String password) {
-        String username = user.getUsername();
+        String email = user.getEmail();
 
         // 같은 아이디가 이미 있으면 가입 실패
-        if (users.containsKey(username)) {
+        if (users.containsKey(email)) {
             return false;
         }
 
-        users.put(username, user);
-        passwords.put(username, password);
+        users.put(email, user);
+        passwords.put(email, password);
 
         // 가입한 사람은 바로 로그인된 상태로
         currentUser = user;

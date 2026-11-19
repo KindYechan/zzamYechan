@@ -3,6 +3,7 @@ package com.example.jjamyechan;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -37,7 +38,26 @@ public class AdminRoomActivity extends AppCompatActivity {
         // intent로 전달된 데이터 저장부
         String unitName = getIntent().getStringExtra("unit_name");
         int memberCount = getIntent().getIntExtra("member_count", 0);
+        boolean[] feature = getIntent().getBooleanArrayExtra("feature");
+        if(feature == null){
+            feature = new boolean[]{true, true, true, true, true, true};
+        }
         binding.tvRoomTitle.setText(getString(R.string.unit_name, unitName));
+        binding.btnUnreadNotice.setVisibility(feature[3] ? View.VISIBLE : View.GONE);
+        binding.btnUrgentQuest.setVisibility(feature[1] ? View.VISIBLE : View.GONE);
+
+        // 캘린더 카드 보이게할지
+        binding.cardRoomCalendar.setVisibility(feature[0] ? View.VISIBLE : View.GONE);
+        // 퀘스트 카드 보이게할지
+        binding.cardRoomQuest.setVisibility(feature[1] ? View.VISIBLE : View.GONE);
+        // 진급 카드 보이게할지
+        binding.cardPromotion.setVisibility(feature[2] ? View.VISIBLE : View.GONE);
+        // 게시판 카드 보이게할지
+        binding.cardBoard.setVisibility(feature[3] ? View.VISIBLE : View.GONE);
+        // 전파사항 카드 보이게할지
+        binding.cardBroadcast.setVisibility(feature[4] ? View.VISIBLE : View.GONE);
+        // 마음의 편지 카드 보이게할지
+        binding.cardLetter.setVisibility(feature[5] ? View.VISIBLE : View.GONE);
 
         // 행정반 전파사항
         binding.cardBroadcast.setOnClickListener(view -> {
@@ -85,10 +105,16 @@ public class AdminRoomActivity extends AppCompatActivity {
         binding.cardLetter.setOnClickListener(view -> {
             showLettetDialog();
         });
+
         // 팝업 햄버거버튼
         binding.btnRoomMenu.setOnClickListener(view -> {
             // 팝업 생성부
             PopupRoomMenuBinding menuBinding = PopupRoomMenuBinding.inflate(getLayoutInflater());
+//            menuBinding.menuItemCalendar.setVisibility(feature[0] ? View.VISIBLE : View.GONE);
+//            menuBinding.menuItemQuest.setVisibility(feature[1] ? View.VISIBLE : View.GONE);
+//            menuBinding.menuItemCalculator.setVisibility(feature[2] ? View.VISIBLE : View.GONE);
+//            menuBinding.menuItemBoard.setVisibility(feature[3] ? View.VISIBLE : View.GONE);
+//            menuBinding.menuItemLetter.setVisibility(feature[5] ? View.VISIBLE : View.GONE);
             // 화면이 먹어서 dimen에 있는 width를 불러와서 화면에 적용
             int width = getResources().getDimensionPixelSize(R.dimen.popup_menu_width);
             PopupWindow popup = new PopupWindow(menuBinding.getRoot(), width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
