@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.tvSalaryValue.setText(currentUser.getSalary());
-
+        binding.tvSalarySub.setText(getString(R.string.home_salary_dday, currentUser.getSalaryDay()));
 
         // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();

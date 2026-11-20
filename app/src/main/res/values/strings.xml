@@ -37,7 +37,7 @@
     <!-- 홈: 월급 / 적금 -->
     <string name="home_salary_title">이번 달 월급</string>
     <string name="home_salary_value">900,000</string>
-    <string name="home_salary_dday">지급일까지 D-8</string>
+    <string name="home_salary_dday">지급일까지 D-%1$d</string>
     <string name="home_saving_title">총 적금</string>
     <string name="home_saving_value">1,100,000</string>
     <string name="home_saving_progress">목표의 8.4%</string>

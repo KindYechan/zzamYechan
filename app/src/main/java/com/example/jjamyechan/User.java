@@ -53,6 +53,10 @@ public class User {
 
         return ChronoUnit.DAYS.between(LocalDate.now(), end);
     }
+    public long getSalaryDay(){
+        long salaryDay = LocalDate.now().lengthOfMonth() + 10;
+        return salaryDay - LocalDate.now().getDayOfMonth();
+    }
     public double getServiceProgress(){
         double allDay = ChronoUnit.DAYS.between(LocalDate.parse(enlistmentDate), LocalDate.parse(dischargeDate));
         return Math.floor((1 - getLeftDays() / allDay) * 1000) / 10;
