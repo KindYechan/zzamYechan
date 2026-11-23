@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 상단바 "기준 설정" 버튼 (관리자만) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/promo_header_button_bg" />
+    <corners android:radius="11dp" />
+</shape>

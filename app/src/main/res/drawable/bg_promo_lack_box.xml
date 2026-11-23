@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 결과 카드 안 "보완이 필요한 항목" 상자 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/promo_lack_box" />
+    <corners android:radius="12dp" />
+</shape>

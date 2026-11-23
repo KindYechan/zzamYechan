@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 항목 시트의 "필수 통과" 스위치 상자 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/promo_toggle_bg" />
+    <corners android:radius="12dp" />
+</shape>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_promotion_setting.xml — 진급 기준 설정의 항목 줄 하나
+    [3km 달리기                        >] [×]
+    [등급 · 2급 이상  필수               ]
+
+    ══════════ 채우는 방법 ══════════
+      binding.listSettingItems.removeAllViews();
+      for (int i = 0; i < items.size(); i++) {
+          PromotionItem item = items.get(i);
+          ItemPromotionSettingBinding row =
+                  ItemPromotionSettingBinding.inflate(getLayoutInflater(), binding.listSettingItems, false);
+          row.tvSettingName.setText(item.getName());
+          row.tvSettingDesc.setText(item.getInputType().equals("grade")
+                  ? getString(R.string.promo_setting_grade_desc, "2급")
+                  : getString(R.string.promo_setting_pass_desc));
+          row.tvSettingRequired.setVisibility(item.isRequired() ? View.VISIBLE : View.GONE);
+          row.dividerTop.setVisibility(i == 0 ? View.GONE : View.VISIBLE);    // 첫 줄은 위 선 없음
+
+          row.btnEditItem.setOnClickListener(v -> showItemSheet(item));         // 편집 시트
+          row.btnDeleteItem.setOnClickListener(v -> { items.remove(item); drawItems(); });
+          binding.listSettingItems.addView(row.getRoot());
+      }
+      binding.tvItemsCount.setText(getString(R.string.promo_items_count, items.size()));
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/divider_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- 누르면 편집 (이름·설명·화살표 영역 전체) -->
+        <LinearLayout
+            android:id="@+id/btn_edit_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="13dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="13dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_setting_name"
+                    style="@style/JjamText.BodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/promo_item_name_sample" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_setting_desc"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/promo_setting_grade_desc_sample"
+                        android:textColor="@color/promo_hint"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_setting_required"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/bg_promo_required"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/promo_required"
+                        android:textColor="@color/promo_required_text"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_chevron"
+                app:tint="@color/nav_inactive" />
+        </LinearLayout>
+
+        <!-- 삭제 버튼 (왼쪽 세로선으로 구분) -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider" />
+
+        <ImageButton
+            android:id="@+id/btn_delete_item"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/promo_delete_item"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/promo_delete" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 결과 카드: 합격 (짙은 초록 그라데이션) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient android:angle="315" android:startColor="@color/promo_pass_start" android:endColor="@color/promo_pass_end" />
+    <corners android:radius="20dp" />
+</shape>

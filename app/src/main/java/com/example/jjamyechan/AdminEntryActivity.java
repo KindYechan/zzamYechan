@@ -31,6 +31,12 @@ public class AdminEntryActivity extends AppCompatActivity {
             return insets;
         });
 
+        // 설정 화면 들어가기
+        binding.topBar.btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        });
+
         // 이미 만들어진 행정반 들어가기
         binding.btnJoin.setOnClickListener(view -> {
             // 바텀시트 생성부

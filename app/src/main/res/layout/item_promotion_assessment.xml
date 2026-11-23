@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_promotion_assessment.xml — 진급 계산기의 항목 카드 하나
+    [3km 달리기  2급 이상                    필수]
+    [특급][1급][2급][3급][불합격]      ← 등급 항목 (rg_grade)
+    [   합격   ][   불합격   ]         ← 통과 항목 (rg_pass)  ※ 둘 중 하나만 보이게
+
+    ══════════ 채우는 방법 (캘린더의 일정 목록과 같은 방식) ══════════
+      binding.listAssessments.removeAllViews();
+      for (PromotionItem item : rule.getItems()) {
+          ItemPromotionAssessmentBinding card =
+                  ItemPromotionAssessmentBinding.inflate(getLayoutInflater(), binding.listAssessments, false);
+          card.tvItemName.setText(item.getName());
+          card.tvRequired.setVisibility(item.isRequired() ? View.VISIBLE : View.GONE);
+
+          if (item.getInputType().equals("grade")) {
+              card.tvItemThreshold.setText(getString(R.string.promo_threshold, "2급"));
+              card.rgGrade.setVisibility(View.VISIBLE);
+              card.rgPass.setVisibility(View.GONE);
+          } else {
+              card.tvItemThreshold.setText(R.string.promo_pass_only);
+              card.rgGrade.setVisibility(View.GONE);
+              card.rgPass.setVisibility(View.VISIBLE);
+          }
+
+          // 고를 때마다 기록 저장 + 결과 다시 계산
+          card.rgGrade.setOnCheckedChangeListener((group, checkedId) -> { ... updateResult(); });
+          card.rgPass.setOnCheckedChangeListener((group, checkedId) -> { ... updateResult(); });
+
+          binding.listAssessments.addView(card.getRoot());
+      }
+
+    고른 등급 → 점수 바꾸기:  rb_grade_special 0, rb_grade_1 1, rb_grade_2 2, rb_grade_3 3, rb_grade_fail 4
+    카드마다 RadioGroup 이 따로라서, 다른 카드의 선택과 섞이지 않아요.
+    기록은 Map<String, Integer> (항목 이름 → 점수) 같은 필드에 모아 두면 계산하기 편해요.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bg_promo_card"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_item_name"
+            style="@style/JjamText.BodyBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/promo_item_name_sample"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_item_threshold"
+            style="@style/JjamText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_weight="1"
+            android:text="@string/promo_threshold_sample"
+            android:textColor="@color/promo_hint"
+            android:textSize="@dimen/text_tiny" />
+
+        <TextView
+            android:id="@+id/tv_required"
+            style="@style/JjamText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_promo_required"
+            android:paddingStart="7dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="4dp"
+            android:text="@string/promo_required"
+            android:textColor="@color/promo_required_text"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 등급 5개 -->
+    <RadioGroup
+        android:id="@+id/rg_grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_grade_special"
+            style="@style/PromoOption"
+            android:text="@string/promo_grade_special" />
+
+        <RadioButton
+            android:id="@+id/rb_grade_1"
+            style="@style/PromoOption"
+        android:layout_marginStart="6dp"
+            android:text="@string/promo_grade_1" />
+
+        <RadioButton
+            android:id="@+id/rb_grade_2"
+            style="@style/PromoOption"
+        android:layout_marginStart="6dp"
+            android:text="@string/promo_grade_2" />
+
+        <RadioButton
+            android:id="@+id/rb_grade_3"
+            style="@style/PromoOption"
+        android:layout_marginStart="6dp"
+            android:text="@string/promo_grade_3" />
+
+        <RadioButton
+            android:id="@+id/rb_grade_fail"
+            style="@style/PromoOption"
+        android:layout_marginStart="6dp"
+            android:text="@string/promo_grade_fail" />
+    </RadioGroup>
+
+    <!-- 합격 / 불합격 (처음엔 gone, 통과 항목일 때만 VISIBLE) -->
+    <RadioGroup
+        android:id="@+id/rg_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <RadioButton
+            android:id="@+id/rb_pass"
+            style="@style/PromoOption"
+            android:text="@string/promo_pass" />
+
+        <RadioButton
+            android:id="@+id/rb_fail"
+            style="@style/PromoOption"
+        android:layout_marginStart="6dp"
+            android:text="@string/promo_fail" />
+    </RadioGroup>
+</LinearLayout>

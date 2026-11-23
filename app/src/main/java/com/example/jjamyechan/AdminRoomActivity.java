@@ -100,6 +100,12 @@ public class AdminRoomActivity extends AppCompatActivity {
                 dialog.dismiss();
             });
         });
+        // 진급계산기
+        binding.cardPromotion.setOnClickListener(view -> {
+            Intent intent = new Intent(this, PromotionActivity.class);
+            startActivity(intent);
+        });
+
 
         // 마음의 편지
         binding.cardLetter.setOnClickListener(view -> {

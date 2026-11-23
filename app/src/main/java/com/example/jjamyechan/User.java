@@ -7,7 +7,6 @@ public class User {
 
     // (왼쪽부터) 이메일, 이름, 병or간부, 계급, 입대일, 전역일, 부대코드, 역할(수정권한)
     private String email, name, memberType, rank, enlistmentDate, dischargeDate, unitCode, role;
-
     public User(){}
 
     public User(String email, String name, String memberType, String rank, String enlistmentDate, String dischargeDate) {
@@ -53,28 +52,66 @@ public class User {
 
         return ChronoUnit.DAYS.between(LocalDate.now(), end);
     }
+    // 남은 월급일 계산
     public long getSalaryDay(){
         long salaryDay = LocalDate.now().lengthOfMonth() + 10;
         return salaryDay - LocalDate.now().getDayOfMonth();
     }
+    // 복무율 progress
     public double getServiceProgress(){
         double allDay = ChronoUnit.DAYS.between(LocalDate.parse(enlistmentDate), LocalDate.parse(dischargeDate));
         return Math.floor((1 - getLeftDays() / allDay) * 1000) / 10;
     }
 
-    public String getSalary(){
-        if (rank.equals("private"))
-            return "750,000";
-        else if (rank.equals("private-first-class")) {
-            return "900,000";
-        } else if (rank.equals("corporal")) {
-            return "1,200,000";
-        } else if (rank.equals("sergean")) {
-            return "1,500,000";
+    // 총 적금
+    public long getTotalSalary() {
+        LocalDate start = LocalDate.parse(enlistmentDate);
+        LocalDate end = LocalDate.parse(dischargeDate);
+        LocalDate today = LocalDate.now();
+        LocalDate limit = today.isBefore(end) ? today : end;
+
+        // 입대 후 첫 월급날 찾기
+        LocalDate payday = start.withDayOfMonth(10);
+        if (payday.isBefore(start)) {
+            payday = payday.plusMonths(1);
         }
-        else{
-            return "2,000,000";
+
+        long total = 0;
+        while (!payday.isAfter(limit)) {          // 지나간 월급날마다
+            total += 550000; // 적금을 더함
+            payday = payday.plusMonths(1);
         }
+        return total;
+    }
+
+    // 특정 날짜의 계급 (입대 월부터 몇 개월째인지로 판단)
+    public String getRankAt(LocalDate date) {
+        LocalDate start = LocalDate.parse(enlistmentDate);
+        long months = ChronoUnit.MONTHS.between(start.withDayOfMonth(1), date.withDayOfMonth(1));
+        if (months < 2)  return "private";              // 이병
+        if (months < 8)  return "private-first-class";  // 일병
+        if (months < 14) return "corporal";             // 상병
+        return "sergeant";                              // 병장
+    }
+
+    // 계급별 월급
+    public int getSalaryOf(String rank) {
+        if (rank == null) return 0;                     // 간부 등
+        switch (rank) {
+            case "private":             return 750000;
+            case "private-first-class": return 900000;
+            case "corporal":            return 1200000;
+            case "sergeant":            return 1500000;
+            default:                    return 0;
+        }
+    }
+    // 현재 계급의 월급
+    public int getCurrentSalary() {
+        return getSalaryOf(getRank());
+    }
+    public double getSavingAccountPercent() {
+        // 지금까지 적금 / 990만 * 1000 하고 바닥함수, 나누기 10
+        return getTotalSalary() / 99000;
     }
 
     // setter

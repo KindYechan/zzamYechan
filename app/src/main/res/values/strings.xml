@@ -40,7 +40,7 @@
     <string name="home_salary_dday">지급일까지 D-%1$d</string>
     <string name="home_saving_title">총 적금</string>
     <string name="home_saving_value">1,100,000</string>
-    <string name="home_saving_progress">목표의 8.4%</string>
+    <string name="home_saving_progress">목표의 %1$.1f%%</string>
     <string name="unit_won">원</string>
 
     <!-- 홈: 캘린더 카드 -->

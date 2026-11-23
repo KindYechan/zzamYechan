@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 상병/병장 탭 글자색: 선택되면 흰색 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/on_dark" android:state_checked="true" />
+    <item android:color="@color/promo_tab_text" />
+</selector>

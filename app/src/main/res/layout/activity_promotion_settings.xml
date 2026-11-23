@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_promotion_settings.xml — 진급 기준 설정 (PromotionSettingsActivity, 관리자용)
+    진급 계산기의 "기준 설정" 버튼으로 들어와요.
+
+    ┌ [< 진급 기준 설정]                              [저장]
+    │ [  상병  |  병장  ]
+    │ ┌ 판정 방식: [평균] [전부 통과]  / 평균 기준 등급 [2급 ▾] ┐
+    │ 심사 항목 7개                              [+ 항목 추가]
+    │ ┌ 항목 줄들 (Java 로 채움) ┐                          ← list_setting_items
+    └ 기본 템플릿으로 되돌리기
+
+    ══════════ 구현 순서 ══════════
+    1) 판정 방식 선택: 글자가 두 줄이라 RadioButton 대신 LinearLayout 2개를 썼어요.
+         binding.modeAverage.setOnClickListener(v -> setMode("average"));
+         binding.modeAll.setOnClickListener(v -> setMode("all"));
+         setMode 안에서:
+           binding.modeAverage.setSelected(mode.equals("average"));   // 배경 selector 가 선택 표시
+           binding.modeAll.setSelected(mode.equals("all"));
+           binding.layoutAverageThreshold.setVisibility(평균이면 VISIBLE, 아니면 GONE);
+    2) 평균 기준 등급: sp_average_threshold.getSelectedItemPosition() 이 곧 등급 점수 (0 특급 ~ 3 3급)
+    3) 항목 목록: list_setting_items 에 item_promotion_setting 을 반복문으로 붙이기 (그 파일 주석 참고)
+       항목이 0개면 card_setting_items 숨기고 layout_settings_empty 보이기
+    4) btn_add_item / btn_add_first_item → sheet_promotion_item (새 항목)
+       항목 줄을 누르면 같은 시트를 "편집" 모드로 (값을 채워서) 띄우기
+    5) btn_reset → 기본 항목 7개로 되돌리고 목록 다시 그리기
+    6) btn_save → 규칙 저장 후 finish()
+
+    ⚠ 상병 / 병장 규칙을 따로 갖고 있어야 해요. 탭을 바꾸면 그 계급의 규칙으로 1~3 을 다시 그리세요.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- ═══════ 상단바 ═══════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="18dp">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/promo_back_to_calc"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_chevron_left"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:letterSpacing="-0.03"
+                android:text="@string/promo_settings_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- 저장: 규칙을 저장하고(서버 전에는 UserManager 처럼 static 보관) finish() -->
+        <TextView
+            android:id="@+id/btn_save"
+            style="@style/JjamText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_promo_save"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingStart="13dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="13dp"
+            android:paddingBottom="8dp"
+            android:text="@string/promo_save"
+            android:textColor="@color/on_dark"
+            android:textSize="@dimen/text_caption"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/header_divider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/promo_bg"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_padding_h"
+            android:paddingTop="16dp"
+            android:paddingEnd="@dimen/screen_padding_h"
+            android:paddingBottom="28dp">
+
+            <include
+                android:id="@+id/rank_tabs"
+                layout="@layout/layout_promotion_rank_tabs" />
+
+            <!-- ═══════ 판정 방식 ═══════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_promo_card"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/JjamText.BodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/promo_mode_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/promo_mode_desc"
+                    android:textColor="@color/promo_hint"
+                    android:textSize="@dimen/text_tiny" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/mode_average"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_promo_mode"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:paddingStart="10dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="12dp"
+                        android:selected="true">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/promo_mode_average"
+                            android:textColor="@color/promo_mode_title"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/promo_mode_average_desc"
+                            android:textColor="@color/promo_hint"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mode_all"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_promo_mode"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:paddingStart="10dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="12dp">
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/promo_mode_all"
+                            android:textColor="@color/promo_mode_title"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/promo_mode_all_desc"
+                            android:textColor="@color/promo_hint"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 평균 기준 등급 (평균 방식일 때만 보임) -->
+                <LinearLayout
+                    android:id="@+id/layout_average_threshold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/JjamText.FormLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/promo_average_threshold" />
+
+                        <Spinner
+                            android:id="@+id/sp_average_threshold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_spinner_small"
+                            android:entries="@array/promo_thresholds"
+                            android:paddingEnd="24dp"
+                            android:popupBackground="@color/surface" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ═══════ 심사 항목 제목 줄 ═══════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/JjamText.BodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/promo_items_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_items_count"
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:background="@drawable/bg_promo_badge"
+                    android:paddingStart="7dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="7dp"
+                    android:paddingBottom="3dp"
+                    android:text="@string/promo_items_count_sample"
+                    android:textColor="@color/promo_badge_text"
+                    android:textSize="@dimen/text_tiny"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/btn_add_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_promo_save"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_plus"
+                        app:tint="@color/on_dark" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/promo_add_item"
+                        android:textColor="@color/on_dark"
+                        android:textSize="@dimen/text_caption"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ★ 항목 줄이 들어갈 흰 카드 (item_promotion_setting 을 반복문으로 붙임) -->
+            <LinearLayout
+                android:id="@+id/card_setting_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_promo_card"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/list_setting_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:minHeight="120dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_settings_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_promo_empty"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="34dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="34dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_promo_empty_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_rank"
+                    app:tint="@color/promo_empty_icon" />
+
+                <TextView
+                    style="@style/JjamText.BodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/promo_settings_empty_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.4"
+                    android:text="@string/promo_settings_empty_desc"
+                    android:textColor="@color/promo_hint"
+                    android:textSize="@dimen/text_caption" />
+
+                <LinearLayout
+                    android:id="@+id/btn_add_first_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_promo_save"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_plus"
+                        app:tint="@color/on_dark" />
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/promo_add_first_item"
+                        android:textColor="@color/on_dark"
+                        android:textSize="@dimen/text_caption"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_reset"
+                style="@style/JjamText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/promo_reset"
+                android:textColor="@color/text_hint"
+                android:textSize="@dimen/text_caption" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

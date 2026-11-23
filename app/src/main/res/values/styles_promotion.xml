@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 진급 계산기 전용 스타일 -->
+<resources>
+    <!-- 등급 / 합격 선택 버튼. RadioButton 의 동그라미를 없애고 배경으로 선택 표시.
+         layout_weight=1 이라 한 줄 안의 버튼들이 같은 너비로 나뉘어요 -->
+    <style name="PromoOption">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_promo_option</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/promo_option_text_selector</item>
+    </style>
+</resources>

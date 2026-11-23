@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위험한 항목(나가기, 탈퇴)의 아이콘 상자: 연한 빨강 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/set_danger_icon_bg" />
+    <corners android:radius="9dp" />
+</shape>

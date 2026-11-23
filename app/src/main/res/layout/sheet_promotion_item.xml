@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    sheet_promotion_item.xml — 심사 항목 추가 / 편집 바텀시트
+    가입 시트(sheet_join)와 같은 방법으로 띄워요:
+      BottomSheetDialog sheet = new BottomSheetDialog(this);
+      SheetPromotionItemBinding s = SheetPromotionItemBinding.inflate(getLayoutInflater());
+      sheet.setContentView(s.getRoot());
+      sheet.show();
+
+    ══════════ 새 항목 / 편집 ══════════
+      새 항목: 제목 그대로 (R.string.promo_sheet_title_new), 칸은 비워 둠
+      편집   : s.tvSheetTitle.setText(R.string.promo_sheet_title_edit) + 기존 값 채우기
+               s.etItemName.setText(item.getName());
+               s.spThreshold.setSelection(기준 등급 점수);
+               s.swRequired.setChecked(item.isRequired());
+
+    ══════════ 입력 방식 선택 (등급 / 통과) ══════════
+      판정 방식 카드와 같은 방식: 두 상자를 setSelected(true/false) 로 표시
+        s.typeGrade.setOnClickListener(v -> {
+            s.typeGrade.setSelected(true);
+            s.typePass.setSelected(false);
+            s.layoutThreshold.setVisibility(View.VISIBLE);    // 통과 항목은 기준 등급이 필요 없음
+        });
+
+    ══════════ 저장 ══════════
+      이름이 비었으면 s.etItemName.setError(...) 후 return
+      아니면 PromotionItem 을 만들어(편집이면 값 바꾸기) 목록에 넣고 sheet.dismiss() → 목록 다시 그리기
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_sheet"
+    android:scrollbars="none">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="24dp">
+
+    <!-- 머리: 작은 머리말 + 제목 | 닫기(X) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/JjamText.Kicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/promo_sheet_kicker" />
+
+            <TextView
+                android:id="@+id/tv_sheet_title"
+                style="@style/JjamText.SheetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/promo_sheet_title_new" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/icon_button"
+            android:layout_height="@dimen/icon_button"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/action_close"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            app:tint="@color/icon_default" />
+    </LinearLayout>
+
+    <!-- 항목 이름 -->
+    <TextView
+        style="@style/JjamText.FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/promo_label_item_name" />
+
+    <EditText
+        android:id="@+id/et_item_name"
+        style="@style/JjamInput"
+        android:autofillHints=""
+        android:hint="@string/promo_hint_item_name"
+        android:maxLength="30" />
+
+    <!-- 입력 방식 -->
+    <TextView
+        style="@style/JjamText.FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/promo_label_input_type" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/type_grade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_promo_type"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:selected="true">
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/promo_type_grade"
+                android:textColor="@color/promo_mode_title"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/promo_type_grade_desc"
+                android:textColor="@color/promo_hint"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/type_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_promo_type"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/promo_type_pass"
+                android:textColor="@color/promo_mode_title"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/promo_type_pass_desc"
+                android:textColor="@color/promo_hint"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 통과 기준 등급 (등급 항목일 때만 보임) -->
+    <LinearLayout
+        android:id="@+id/layout_threshold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/JjamText.FormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/promo_label_threshold" />
+
+        <!-- 처음 값은 2급 → Java 에서 s.spThreshold.setSelection(2) -->
+        <Spinner
+            android:id="@+id/sp_threshold"
+            style="@style/JjamSpinner"
+            android:entries="@array/promo_thresholds" />
+    </LinearLayout>
+
+    <!-- 필수 통과 스위치 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_promo_toggle_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="13dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/promo_required_title"
+                android:textColor="@color/promo_mode_title"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/promo_required_desc"
+                android:textColor="@color/promo_hint"
+                android:textSize="@dimen/text_tiny" />
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/sw_required"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_item"
+        style="@style/JjamButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/promo_save_item" />
+</LinearLayout>
+</ScrollView>

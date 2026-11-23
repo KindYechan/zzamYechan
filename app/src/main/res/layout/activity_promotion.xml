@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_promotion.xml — 진급 계산기 (PromotionActivity)
+    행정반 대시보드의 "진급 계산기" 카드 / 메뉴의 "계산기"에서 Intent 로 이동해 와요.
+
+    ┌ [< 진급 계산기]                     [⚙ 기준 설정]  ← 관리자만
+    │ [  상병  |  병장  ]                                  ← include (공용 탭)
+    │ ┌ 우리 부대 판정 방식: 평균 2급 이상 · 7개 항목 ┐
+    │ ┌ 항목 카드들 (Java 로 채움) ┐                        ← list_assessments
+    │ ┌ 결과 카드: 합격/불합격, 평균 등급, 예상 진급일, 보완할 항목 ┐
+    └ 안내 문구
+
+    ══════════ 구현 순서 ══════════
+    1) btn_back → finish() / btn_rules → PromotionSettingsActivity (관리자만 보이게)
+    2) 지금 보고 있는 계급의 규칙(PromotionRule) 가져오기. 서버 전에는 코드로 만든 기본 규칙을 써도 돼요
+    3) 판정 방식 카드 채우기
+         mode 가 "average" → getString(R.string.promo_rule_average, "2급")
+         mode 가 "all"     → R.string.promo_rule_all
+         tv_rule_count     → getString(R.string.promo_item_count, items.size())
+    4) 항목 카드 채우기: list_assessments 에 item_promotion_assessment 를 반복문으로 붙이기
+       (방법은 item_promotion_assessment.xml 주석 참고). 항목이 0개면 layout_calc_empty 보이고 결과 카드 숨기기
+    5) 등급/합격을 하나 고를 때마다 결과 다시 계산 → updateResult() 같은 메서드로 빼기
+    6) 탭(상병/병장)을 바꾸면 3~5 를 다시
+
+    ══════════ 판정 계산 (디자인 코드와 같은 방식) ══════════
+    등급 점수: 특급 0, 1급 1, 2급 2, 3급 3, 불합격 4   ← 숫자가 작을수록 좋은 등급
+      항목 통과 : 등급 항목은 내 점수 <= 기준 점수 / 통과 항목은 "합격"을 골랐는지
+      평균      : 등급 항목들의 점수 평균 (통과 항목은 평균에 넣지 않음)
+      전부 통과 : 모든 항목이 통과해야 합격
+      평균 방식 : 필수 항목이 모두 통과 + 평균 <= 기준 점수 이면 합격
+    이 계산은 화면이 아니라 PromotionRule 클래스의 메서드로 만드는 걸 추천해요.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- ═══════ 상단바 ═══════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="18dp">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/promo_back_to_room"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_chevron_left"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:letterSpacing="-0.03"
+                android:text="@string/promo_calc_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- 관리자만 보이는 "기준 설정" 버튼. 처음엔 gone.
+             if ("admin".equals(user.getRole())) binding.btnRules.setVisibility(View.VISIBLE); -->
+        <LinearLayout
+            android:id="@+id/btn_rules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_promo_header_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="11dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_settings"
+                app:tint="@color/promo_header_button_text" />
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/promo_rules_button"
+                android:textColor="@color/promo_header_button_text"
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/header_divider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/promo_bg"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_padding_h"
+            android:paddingTop="16dp"
+            android:paddingEnd="@dimen/screen_padding_h"
+            android:paddingBottom="28dp">
+
+            <include
+                android:id="@+id/rank_tabs"
+                layout="@layout/layout_promotion_rank_tabs" />
+
+            <!-- ═══════ 우리 부대 판정 방식 ═══════ -->
+            <LinearLayout
+                android:id="@+id/card_rule_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_promo_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:background="@drawable/bg_promo_summary_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_unit"
+                    app:tint="@color/promo_summary_icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/promo_rule_label"
+                        android:textColor="@color/promo_hint"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <TextView
+                        android:id="@+id/tv_rule_mode"
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/promo_rule_average_sample"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_rule_count"
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_promo_badge"
+                    android:paddingStart="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/promo_item_count_sample"
+                    android:textColor="@color/promo_badge_text"
+                    android:textSize="@dimen/text_tiny"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ★ 항목 카드가 들어갈 빈 상자 (item_promotion_assessment 를 반복문으로 붙임) -->
+            <LinearLayout
+                android:id="@+id/list_assessments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- 항목이 하나도 없을 때만 VISIBLE -->
+            <LinearLayout
+                android:id="@+id/layout_calc_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_promo_empty"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="34dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="34dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_promo_empty_icon"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_rank"
+                    app:tint="@color/promo_empty_icon" />
+
+                <TextView
+                    style="@style/JjamText.BodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/promo_calc_empty_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.4"
+                    android:text="@string/promo_calc_empty_desc"
+                    android:textColor="@color/promo_hint"
+                    android:textSize="@dimen/text_caption" />
+            </LinearLayout>
+
+            <!-- ═══════ 결과 카드 ═══════
+                 합격/불합격에 따라 Java 에서 바꿀 것:
+                   배경      : bg_promo_result_pass / bg_promo_result_fail
+                   tv_result_label  색 : promo_pass_label / promo_fail_label
+                   tv_result_status 글자·색 : "합격" on_dark / "불합격" promo_fail_title
+                   tv_result_desc   글자·색 : promo_result_pass_desc + promo_pass_desc / promo_result_fail_desc + promo_fail_desc
+                   두 값(tv_result_average, tv_result_date) 색 : on_dark / promo_fail_value
+                   구분선(line_result, line_result_middle) 색 : promo_pass_line / promo_fail_line
+                   layout_lacks : 불합격이고 부족한 항목이 있을 때만 VISIBLE
+                 지금 XML 은 디자인 예시처럼 "불합격" 상태로 그려져 있어요. -->
+            <LinearLayout
+                android:id="@+id/card_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_promo_result_fail"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:id="@+id/tv_result_label"
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/promo_result_label_sample"
+                    android:textColor="@color/promo_fail_label"
+                    android:textSize="@dimen/text_tiny"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_result_status"
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/promo_fail"
+                    android:textColor="@color/promo_fail_title"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_result_desc"
+                    style="@style/JjamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingMultiplier="1.4"
+                    android:text="@string/promo_result_fail_desc"
+                    android:textColor="@color/promo_fail_desc"
+                    android:textSize="@dimen/text_caption" />
+
+                <View
+                    android:id="@+id/line_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/promo_fail_line" />
+
+                <!-- 평균 등급 | 예상 진급일 (반반) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_result_average_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/promo_result_average"
+                            android:textColor="@color/promo_fail_label"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <!-- getString(R.string.promo_result_average_value, 2.4) → "2.4급"
+                             등급 항목이 없으면 R.string.promo_result_average_none -->
+                        <TextView
+                            android:id="@+id/tv_result_average"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/promo_result_average_sample"
+                            android:textColor="@color/promo_fail_value"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/line_result_middle"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/promo_fail_line" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_result_date_label"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/promo_result_date"
+                            android:textColor="@color/promo_fail_label"
+                            android:textSize="@dimen/text_tiny" />
+
+                        <!-- 진급일 계산(User 의 진급일 + 불합격이면 1개월)과 연결할 자리 -->
+                        <TextView
+                            android:id="@+id/tv_result_date"
+                            style="@style/JjamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/promo_result_date_sample"
+                            android:textColor="@color/promo_fail_value"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 보완이 필요한 항목: list_lacks 안에 이름 칩(TextView)을 반복문으로 추가
+                     칩 하나 만들기 예:
+                       TextView chip = new TextView(this);
+                       chip.setText(item.getName());
+                       chip.setBackgroundResource(R.drawable.bg_promo_lack_chip);
+                       chip.setTextColor(ContextCompat.getColor(this, R.color.promo_lack_text));
+                       chip.setPadding(20, 12, 20, 12);   // 픽셀 단위
+                       binding.listLacks.addView(chip);
+                     칩이 많아지면 가로로 넘칠 수 있어요. 그럴 땐 HorizontalScrollView 로 감싸면 돼요 (이미 감싸 둠). -->
+                <LinearLayout
+                    android:id="@+id/layout_lacks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_promo_lack_box"
+                    android:orientation="vertical"
+                    android:padding="11dp">
+
+                    <TextView
+                        style="@style/JjamText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/promo_result_lacks"
+                        android:textColor="@color/promo_fail_desc"
+                        android:textSize="@dimen/text_tiny"
+                        android:textStyle="bold" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:id="@+id/list_lacks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/space_promo_chip"
+                            android:orientation="horizontal"
+                            android:showDividers="middle" />
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/JjamText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:text="@string/promo_disclaimer"
+                android:textColor="@color/promo_hint"
+                android:textSize="@dimen/text_tiny" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

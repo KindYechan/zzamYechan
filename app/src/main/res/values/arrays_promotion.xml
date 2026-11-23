@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    기준 등급 선택 상자(Spinner) 항목. 불합격은 기준이 될 수 없어서 빠져 있어요.
+    위치(position)가 곧 등급 점수예요: 0 특급, 1 1급, 2 2급, 3 3급  (숫자가 작을수록 좋은 등급)
+    입력받은 결과의 불합격은 4로 계산하면 디자인 코드의 계산 방식과 같아져요.
+-->
+<resources>
+    <string-array name="promo_thresholds">
+        <item>특급</item>
+        <item>1급</item>
+        <item>2급</item>
+        <item>3급</item>
+    </string-array>
+</resources>

@@ -59,6 +59,10 @@ public class UserManager {
     public static void logout() {
         currentUser = null;
     }
+    public static void leaveUnit() {
+        getCurrentUser().setUnitCode(null);
+        getCurrentUser().setRole(null);
+    }
 
     // 지금 로그인한 유저 리턴
     public static User getCurrentUser() {

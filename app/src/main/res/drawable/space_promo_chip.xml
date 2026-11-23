@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 부족한 항목 칩 사이 간격 (LinearLayout 의 divider 로 사용, 보이지 않는 6dp 빈칸) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size android:width="6dp" android:height="1dp" />
+    <solid android:color="@android:color/transparent" />
+</shape>

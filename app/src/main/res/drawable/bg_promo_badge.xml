@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "7개 항목" 회색 배지 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/promo_badge_bg" />
+    <corners android:radius="7dp" />
+</shape>

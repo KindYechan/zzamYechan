@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 진급 계산기 / 진급 기준 설정 전용 글자 (이름 앞에 promo_) -->
+<resources>
+    <!-- 공통 -->
+    <string name="promo_rank_corporal">상병</string>
+    <string name="promo_rank_sergeant">병장</string>
+    <string name="promo_required">필수</string>
+    <string name="promo_grade_special">특급</string>
+    <string name="promo_grade_1">1급</string>
+    <string name="promo_grade_2">2급</string>
+    <string name="promo_grade_3">3급</string>
+    <string name="promo_grade_fail">불합격</string>
+    <string name="promo_pass">합격</string>
+    <string name="promo_fail">불합격</string>
+
+    <!-- 진급 계산기 -->
+    <string name="promo_calc_title">진급 계산기</string>
+    <string name="promo_back_to_room">행정반으로 돌아가기</string>
+    <string name="promo_rules_button">기준 설정</string>
+    <string name="promo_rule_label">우리 부대 판정 방식</string>
+    <string name="promo_rule_average">평균 %1$s 이상</string>
+    <string name="promo_rule_average_sample">평균 2급 이상</string>
+    <string name="promo_rule_all">모든 항목 통과</string>
+    <string name="promo_item_count">%1$d개 항목</string>
+    <string name="promo_item_count_sample">7개 항목</string>
+    <string name="promo_item_name_sample">3km 달리기</string>
+    <string name="promo_threshold">%1$d급 이상</string>
+    <string name="promo_threshold_sample">2급 이상</string>
+    <string name="promo_pass_only">통과 여부</string>
+    <string name="promo_calc_empty_title">등록된 진급 심사 항목이 없어요</string>
+    <string name="promo_calc_empty_desc">관리자가 기준을 설정하면\n이곳에서 예상 결과를 확인할 수 있어요.</string>
+
+    <!-- 결과 카드 -->
+    <string name="promo_result_label">%1$s 진급 심사 예상</string>
+    <string name="promo_result_label_sample">상병 진급 심사 예상</string>
+    <string name="promo_result_pass_desc">현재 입력한 결과로 진급 기준을 충족했어요.</string>
+    <string name="promo_result_fail_desc">기준을 충족하지 못해 진급이 1개월 늦어질 수 있어요.</string>
+    <string name="promo_result_average">평균 등급</string>
+    <string name="promo_result_average_value">%1$.1f급</string>
+    <string name="promo_result_average_sample">2.4급</string>
+    <string name="promo_result_average_none">해당 없음</string>
+    <string name="promo_result_date">예상 진급일</string>
+    <string name="promo_result_date_sample">2025. 09. 01</string>
+    <string name="promo_result_lacks">보완이 필요한 항목</string>
+    <string name="promo_disclaimer">실제 진급 여부와 일정은 소속 부대의 최종 심사 결과를 따라요.</string>
+
+    <!-- 진급 기준 설정 -->
+    <string name="promo_settings_title">진급 기준 설정</string>
+    <string name="promo_back_to_calc">진급 계산기로 돌아가기</string>
+    <string name="promo_save">저장</string>
+    <string name="promo_mode_title">판정 방식</string>
+    <string name="promo_mode_desc">부대 기준에 맞는 방식을 선택하세요</string>
+    <string name="promo_mode_average">평균</string>
+    <string name="promo_mode_average_desc">전체 등급 평균으로 판정</string>
+    <string name="promo_mode_all">전부 통과</string>
+    <string name="promo_mode_all_desc">모든 항목 기준 충족</string>
+    <string name="promo_average_threshold">평균 기준 등급</string>
+    <string name="promo_items_title">심사 항목</string>
+    <string name="promo_items_count">%1$d개</string>
+    <string name="promo_items_count_sample">7개</string>
+    <string name="promo_add_item">항목 추가</string>
+    <string name="promo_setting_grade_desc">등급 · %1$s 이상</string>
+    <string name="promo_setting_grade_desc_sample">등급 · 2급 이상</string>
+    <string name="promo_setting_pass_desc">합격 / 불합격</string>
+    <string name="promo_delete_item">항목 삭제</string>
+    <string name="promo_settings_empty_title">아직 심사 항목이 없어요</string>
+    <string name="promo_settings_empty_desc">우리 부대가 확인하는 항목을 추가하면\n대원들이 바로 계산할 수 있어요.</string>
+    <string name="promo_add_first_item">첫 항목 추가</string>
+    <string name="promo_reset">기본 템플릿으로 되돌리기</string>
+
+    <!-- 항목 추가 / 편집 시트 -->
+    <string name="promo_sheet_kicker">심사 항목</string>
+    <string name="promo_sheet_title_new">새 항목 추가</string>
+    <string name="promo_sheet_title_edit">항목 편집</string>
+    <string name="promo_label_item_name">항목 이름</string>
+    <string name="promo_hint_item_name">예: 레그턱, 생활점수</string>
+    <string name="promo_label_input_type">입력 방식</string>
+    <string name="promo_type_grade">등급</string>
+    <string name="promo_type_grade_desc">특급 ~ 불합격</string>
+    <string name="promo_type_pass">통과</string>
+    <string name="promo_type_pass_desc">합격 / 불합격</string>
+    <string name="promo_label_threshold">통과 기준 등급</string>
+    <string name="promo_required_title">필수 통과</string>
+    <string name="promo_required_desc">평균 방식에서도 반드시 통과해야 해요</string>
+    <string name="promo_save_item">항목 저장</string>
+</resources>

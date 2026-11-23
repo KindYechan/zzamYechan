@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 빈 상태 가운데 아이콘 상자 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/promo_summary_icon_bg" />
+    <corners android:radius="17dp" />
+</shape>

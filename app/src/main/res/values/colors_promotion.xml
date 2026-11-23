@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 진급 계산기 / 진급 기준 설정 화면 전용 색 (이름 앞에 promo_) -->
+<resources>
+    <color name="promo_bg">#FFF1F3EE</color>
+    <color name="promo_tabs_bg">#FFE5E9E2</color>
+    <color name="promo_tab_text">#FF7A867E</color>
+    <color name="promo_card_stroke">#FFDFE5DD</color>
+    <color name="promo_summary_icon_bg">#FFE5EDE0</color>
+    <color name="promo_summary_icon">#FF3E654D</color>
+    <color name="promo_badge_bg">#FFF0F3EE</color>
+    <color name="promo_badge_text">#FF627268</color>
+    <color name="promo_hint">#FF89948D</color>
+    <color name="promo_required_bg">#FFF5E7E3</color>
+    <color name="promo_required_text">#FF9A5148</color>
+
+    <!-- 등급 / 합격 선택 버튼 -->
+    <color name="promo_option_bg">#FFF7F8F5</color>
+    <color name="promo_option_stroke">#FFE0E5DD</color>
+    <color name="promo_option_text">#FF7D8981</color>
+    <color name="promo_option_checked">#FF466951</color>
+    <color name="promo_option_checked_stroke">#FF51725B</color>
+
+    <!-- 결과 카드: 합격 -->
+    <color name="promo_pass_start">#FF294F3B</color>
+    <color name="promo_pass_end">#FF466D54</color>
+    <color name="promo_pass_label">#FFC0D2C3</color>
+    <color name="promo_pass_desc">#FFC7D7C9</color>
+    <color name="promo_pass_line">#1FFFFFFF</color>
+    <!-- 결과 카드: 불합격 -->
+    <color name="promo_fail_start">#FFFFF8F5</color>
+    <color name="promo_fail_end">#FFF5E8E3</color>
+    <color name="promo_fail_stroke">#FFEAD6D0</color>
+    <color name="promo_fail_label">#FF7B6964</color>
+    <color name="promo_fail_title">#FFA04F43</color>
+    <color name="promo_fail_desc">#FF8F6C64</color>
+    <color name="promo_fail_value">#FF442F2B</color>
+    <color name="promo_fail_line">#1F74483E</color>
+    <color name="promo_lack_box">#8AFFFFFF</color>
+    <color name="promo_lack_text">#FF944F46</color>
+
+    <!-- 기준 설정 -->
+    <color name="promo_header_button_bg">#FFE7EDE2</color>
+    <color name="promo_header_button_text">#FF3E644C</color>
+    <color name="promo_mode_bg">#FFF8F9F6</color>
+    <color name="promo_mode_checked_bg">#FFE9EFE5</color>
+    <color name="promo_mode_checked_stroke">#FF5E7B65</color>
+    <color name="promo_mode_title">#FF405347</color>
+    <color name="promo_delete">#FFA9847D</color>
+    <color name="promo_empty_stroke">#FFCFD8CD</color>
+    <color name="promo_empty_bg">#94FFFFFF</color>
+    <color name="promo_empty_icon">#FF5A7961</color>
+    <color name="promo_toggle_bg">#FFEEF2EA</color>
+</resources>

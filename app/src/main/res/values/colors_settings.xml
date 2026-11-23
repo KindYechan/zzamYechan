@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 설정 화면 전용 색 (이름 앞에 set_) -->
+<resources>
+    <color name="set_section">#FF7B897F</color>
+    <color name="set_value">#FF89938C</color>
+    <color name="set_danger_text">#FFA14F43</color>
+    <color name="set_danger_icon_bg">#FFF7E5E1</color>
+</resources>

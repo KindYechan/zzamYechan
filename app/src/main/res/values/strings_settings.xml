@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 설정 화면 전용 글자 (이름 앞에 set_) -->
+<resources>
+    <string name="set_title">설정</string>
+    <string name="set_back">뒤로 가기</string>
+
+    <!-- 프로필 카드 (예시 값: Java 에서 실제 값으로 바꾸기) -->
+    <string name="set_profile_name_sample">김민준</string>
+    <string name="set_profile_sub_sample">일병 · 전역일 2026-10-27</string>
+
+    <string name="set_section_profile">내 정보</string>
+    <string name="set_edit_profile">내 정보 수정</string>
+    <string name="set_edit_profile_desc">이름, 계급, 입대일·전역일</string>
+    <string name="set_promotion_dates">진급일 관리</string>
+    <string name="set_promotion_dates_desc">일병 · 상병 · 병장 진급일</string>
+
+    <string name="set_section_unit">행정반</string>
+    <string name="set_unit_sample">백골대대 행정반</string>
+    <string name="set_leave_unit">행정반 나가기</string>
+
+    <string name="set_section_alert">알림</string>
+    <string name="set_broadcast_alert">전파사항 알림</string>
+    <string name="set_broadcast_alert_desc">행정반에서 보내는 전파사항을 받아요</string>
+
+    <string name="set_section_account">계정</string>
+    <string name="set_logout">로그아웃</string>
+    <string name="set_delete_account">회원 탈퇴</string>
+
+    <string name="set_app_version">앱 버전</string>
+    <string name="set_app_version_sample">1.0.0</string>
+
+    <!-- 확인 창 -->
+    <string name="set_logout_confirm">로그아웃할까요?</string>
+    <string name="set_leave_confirm">행정반에서 나갈까요?</string>
+    <string name="set_delete_confirm">탈퇴하면 모든 정보가 사라져요. 정말 탈퇴할까요?</string>
+    <string name="set_confirm_yes">확인</string>
+    <string name="set_confirm_no">취소</string>
+    <string name="set_coming_soon">준비 중인 기능이에요</string>
+</resources>
