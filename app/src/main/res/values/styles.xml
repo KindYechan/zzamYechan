@@ -98,19 +98,6 @@
         <item name="android:popupBackground">@color/surface</item>
     </style>
 
-    <!-- 기능 선택 칩 (CheckBox 의 체크 표시를 없애고 배경 색으로 선택 여부 표시) -->
-    <style name="JjamChip">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">42dp</item>
-        <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_margin">4dp</item>
-        <item name="android:button">@null</item>
-        <item name="android:background">@drawable/bg_chip</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_caption</item>
-        <item name="android:textColor">@color/chip_text_selector</item>
-    </style>
-
     <!-- 주 버튼 (진한 초록). MaterialButton 은 android:background 대신 backgroundTint 로 색을 바꿔요 -->
     <style name="JjamButton" parent="Widget.Material3.Button">
         <item name="android:layout_height">49dp</item>
@@ -136,22 +123,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- ───────── 행정반 ───────── -->
-
-    <!-- 행정반 카드 제목 ("퀘스트", "캘린더") -->
-    <style name="JjamText.RoomCardTitle">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- 다이얼로그 제목 ("전파사항 작성") -->
-    <style name="JjamText.DialogTitle">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">-0.04</item>
-    </style>
-
-    <!-- 선택지 버튼 (식사/호출/긴급, 전송 시간).
+    <!-- 선택지 버튼 (전파사항 유형, 전송 시간, 회원가입 병사/간부).
          RadioButton 의 동그라미(button)를 없애고 배경으로 선택 상태를 보여줌 -->
     <style name="JjamOption">
         <item name="android:layout_height">40dp</item>

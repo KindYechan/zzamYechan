@@ -8,7 +8,8 @@ public class AdminRoon {
     // 소속 부대원
     int memberCount;
 
-    public AdminRoon() {}
+    public AdminRoon() {
+    }
 
     public AdminRoon(String unitName, String nickname, String unitType, String description, String editPermission, String ownerId,
                      boolean useCalendar, boolean useQuest, boolean usePromotion, boolean useNotice, boolean useBroadcast, boolean useLetter) {
@@ -26,54 +27,70 @@ public class AdminRoon {
         this.useLetter = useLetter;
     }
 
-    // getter
+    // ───────── getter ─────────
+
     public String getUnitCode() {
         return unitCode;
     }
+
     public String getUnitName() {
         return unitName;
     }
+
     public String getNickname() {
         return nickname;
     }
+
     public String getUnitType() {
         return unitType;
     }
+
     public String getDescription() {
         return description;
     }
+
     public String getEditPermission() {
         return editPermission;
     }
+
     public String getOwnerId() {
         return ownerId;
     }
+
     public int getMemberCount() {
         return memberCount;
     }
 
-    // setter
+    // ───────── setter ─────────
+
     public void setUnitCode(String unitCode) {
         this.unitCode = unitCode;
     }
+
     public void setUnitName(String unitName) {
         this.unitName = unitName;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public void setUnitType(String unitType) {
         this.unitType = unitType;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setEditPermission(String editPermission) {
         this.editPermission = editPermission;
     }
+
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
+
     public void setMemberCount(int memberCount) {
         this.memberCount = memberCount;
     }

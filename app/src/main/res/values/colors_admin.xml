@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    행정반 전용 색 (입장 화면, 대시보드, 메뉴, 전파사항·마음의 편지 창)
+
+    리소스는 "파일 이름"이 아니라 항목의 name 으로 찾기 때문에,
+    어느 파일에 있든 @color/이름, R.color.이름 으로 똑같이 쓸 수 있어요.
+    여러 화면이 쓰는 항목은 공용 파일(colors.xml), 한 화면만 쓰는 항목은 화면별 파일에 둡니다.
+-->
+<resources>
+    <!-- 짙은 카드(전역일 카드) 위의 글자 -->
+    <color name="on_dark_icon_bg">#21FFFFFF</color>
+
+    <!-- 행정반 입장 화면 -->
+    <color name="entry_glow">#FFE6EDDF</color>
+    <color name="emblem_tint">#FFE9F1E2</color>
+    <color name="entry_stroke">#FFE0E6DE</color>
+    <color name="entry_icon_bg">#FFE8EEE4</color>
+    <color name="entry_icon_tint">#FF3F654D</color>
+    <color name="entry_text">#FF32483A</color>
+    <color name="entry_primary_sub">#FFCCDACD</color>
+    <color name="privacy_note">#FF97A198</color>
+
+    <!-- 바텀시트 / 입력 폼 -->
+    <color name="secondary_btn_stroke">#FFDBE2D8</color>
+    <color name="secondary_btn_text">#FF59675E</color>
+    <color name="chip_checked_stroke">#FF7F9A84</color>
+    <color name="chip_checked_bg">#FFE6EEE2</color>
+    <color name="setting_line">#FFE4E8E1</color>
+
+    <!-- 행정반 대시보드 -->
+    <color name="room_bg">#FFEEF1EB</color>
+    <color name="room_kicker">#FF7B897F</color>
+    <color name="room_card_stroke">#FFE0E6DE</color>
+    <color name="room_link">#FF859188</color>
+    <color name="summary_bg">#FF294F3B</color>
+    <color name="summary_date">#FFD2DFD1</color>
+    <color name="summary_label">#FFBDCDBF</color>
+    <color name="summary_box">#17FFFFFF</color>
+    <color name="summary_mini_icon">#1AFFFFFF</color>
+    <color name="summary_small">#FFAEC1B1</color>
+    <color name="summary_dday">#FFEAD3AC</color>
+    <color name="broadcast_bg">#FFDCE8CB</color>
+    <color name="broadcast_icon_bg">#FFF8FBF4</color>
+    <color name="broadcast_text">#FF31563E</color>
+    <color name="broadcast_sub">#FF71886F</color>
+    <color name="urgent_pill_text">#FFA65347</color>
+    <color name="urgent_pill_bg">#FFF4E3DE</color>
+    <color name="reward_text">#FF416449</color>
+    <color name="reward_bg">#FFE1EBDC</color>
+    <color name="completion_text">#FF7B887F</color>
+    <color name="completion_track">#FFE8ECE6</color>
+    <color name="completion_fill">#FF759077</color>
+    <color name="completion_value">#FF48614F</color>
+    <color name="mini_week_active">#FF3B624C</color>
+    <color name="mini_week_sub">#FFDBE5DB</color>
+    <color name="event_chip_bg">#FFF5F7F2</color>
+    <color name="event_time">#FF52705C</color>
+    <color name="small_cream">#FFF4EEE2</color>
+    <color name="small_sage">#FFE1E9DC</color>
+    <color name="small_icon_bg">#B3FFFFFF</color>
+    <color name="small_icon_tint">#FF486851</color>
+    <color name="small_sub">#FF7E8D83</color>
+
+    <!-- 행정반 메뉴 팝업 -->
+    <color name="menu_bg">#FFFBFCF8</color>
+    <color name="menu_text">#FF3C5143</color>
+    <color name="menu_icon_tint">#FF466A51</color>
+
+    <!-- 전파사항 / 마음의 편지 창 -->
+    <color name="urgent_checked_stroke">#FFB86A5D</color>
+    <color name="urgent_checked_bg">#FFF7E5E1</color>
+    <color name="urgent_checked_text">#FF9F4D42</color>
+    <color name="note_bg">#FFE7EEE3</color>
+    <color name="note_text">#FF536E5B</color>
+</resources>

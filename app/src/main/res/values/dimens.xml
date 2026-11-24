@@ -18,14 +18,12 @@
     <dimen name="radius_card">22dp</dimen>
     <dimen name="radius_inner">14dp</dimen>
 
-    <!-- 상단바 / 하단 내비게이션 높이 -->
+    <!-- 상단바 높이 -->
     <dimen name="top_bar_height">72dp</dimen>
-    <dimen name="bottom_nav_height">72dp</dimen>
 
     <!-- 아이콘 -->
     <dimen name="icon_button">38dp</dimen>
     <dimen name="label_icon_box">27dp</dimen>
-    <dimen name="label_icon">16dp</dimen>
 
     <!-- 글자 크기 -->
     <dimen name="text_tiny">11sp</dimen>       <!-- 원본 8~9px -->
@@ -36,6 +34,6 @@
     <dimen name="text_money">21sp</dimen>
     <dimen name="text_big_number">36sp</dimen>  <!-- 남은 복무일 숫자 -->
 
-    <!-- 행정반 햄버거 버튼 크기 -->
+    <!-- 행정반 메뉴 팝업 너비 (PopupWindow 생성자에 넣음) -->
     <dimen name="popup_menu_width">220dp</dimen>
 </resources>

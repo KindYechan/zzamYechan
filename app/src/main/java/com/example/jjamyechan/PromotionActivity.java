@@ -4,10 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.jjamyechan.databinding.ActivityPromotionBinding;
 import com.example.jjamyechan.databinding.ItemPromotionAssessmentBinding;
@@ -15,13 +11,14 @@ import com.example.jjamyechan.databinding.ItemPromotionAssessmentBinding;
 import java.util.HashMap;
 
 public class PromotionActivity extends AppCompatActivity {
-    ActivityPromotionBinding binding;
-    User currentUser = UserManager.getCurrentUser();
+    private ActivityPromotionBinding binding;
+    private User currentUser = UserManager.getCurrentUser();
+    // 항목 → 고른 점수 (0 특급 ~ 4 불합격). 고르지 않은 항목은 없음
     private final HashMap<PromotionItem, Integer> answers = new HashMap<>();
+    private String selectedRank = "corporal";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         binding = ActivityPromotionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -29,18 +26,19 @@ public class PromotionActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(view -> {
             finish();
         });
-        if(currentUser.getMemberType().equals("officer")){
+
+        // 간부만 "기준 설정" 버튼 보이기
+        if (currentUser.getMemberType().equals("officer")) {
             binding.btnRules.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             binding.btnRules.setVisibility(View.GONE);
         }
+        drawRule();
     }
 
-
+    // 판정 방식 카드 + 항목 카드 그리기 (구현 중: 아직 onCreate 에서 부르지 않음)
     private void drawRule() {
-        PromotionRule rule = PromotionRuleManager.getRule(currentUser.getRank());
-
+        PromotionRule rule = PromotionRuleManager.getRule(selectedRank);
         // 판정 방식
         if (rule.getMode().equals("average")) {
             String grade = getResources().getStringArray(R.array.promo_thresholds)[rule.getAverageThreshold()];
@@ -51,8 +49,12 @@ public class PromotionActivity extends AppCompatActivity {
 
         // 항목 개수
         binding.tvRuleCount.setText(getString(R.string.promo_item_count, rule.getItems().size()));
-
-        // 4) 항목 카드 그리기 (아래)
+        if (rule.getItems().isEmpty()) {
+            binding.layoutCalcEmpty.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutCalcEmpty.setVisibility(View.GONE);
+        }
+        // 항목 카드 그리기
         binding.listAssessments.removeAllViews();
         for (PromotionItem item : rule.getItems()) {
             ItemPromotionAssessmentBinding card =
@@ -88,8 +90,10 @@ public class PromotionActivity extends AppCompatActivity {
             binding.listAssessments.addView(card.getRoot());
         }
     }
+
+    // 결과 카드 그리기 (구현 중)
     private void updateResult() {
-        PromotionRule rule = PromotionRuleManager.getRule(currentUser.getRank());
+        PromotionRule rule = PromotionRuleManager.getRule(selectedRank);
         PromotionResult result = rule.evaluate(answers);
 
         // 합격/불합격 글자와 색, 배경

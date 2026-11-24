@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    홈 화면(activity_main) 전용 글자
+
+    리소스는 "파일 이름"이 아니라 항목의 name 으로 찾기 때문에,
+    어느 파일에 있든 @string/이름, R.string.이름 으로 똑같이 쓸 수 있어요.
+    여러 화면이 쓰는 항목은 공용 파일(strings.xml), 한 화면만 쓰는 항목은 화면별 파일에 둡니다.
+-->
+<resources>
+    <!-- 공통 -->
+    <string name="action_view_all">전체보기</string>
+    <string name="action_setup">설정</string>
+
+    <!-- 홈: 전역일 카드 -->
+    <string name="home_rank_sample">일병</string>
+    <string name="home_name_sample">김민준</string>
+    <string name="home_days_left_label">남은 복무일</string>
+    <string name="home_days_left_value">468</string>
+    <string name="home_days_unit">일</string>
+    <string name="home_discharge_date">전역일 2026. 10. 27</string>
+    <string name="home_next_promotion">다음 진급일 2025. 08. 01</string>
+    <string name="home_promotion_percent">14.3%</string>
+
+    <!-- 홈: 식단 카드 -->
+    <string name="home_meal_title">오늘의 식단</string>
+    <string name="home_meal_empty_title">식단표를 설정해주세요</string>
+    <string name="home_meal_empty_desc">우리 부대 식단을 등록하면 매일 알려드려요</string>
+
+    <!-- 홈: 월급 / 적금 -->
+    <string name="home_salary_title">이번 달 월급</string>
+    <string name="home_salary_value">900,000</string>
+    <string name="home_salary_dday">지급일까지 D-%1$d</string>
+    <string name="home_saving_title">총 적금</string>
+    <string name="home_saving_value">1,100,000</string>
+    <string name="home_saving_progress">목표의 %1$.1f%%</string>
+    <string name="unit_won">원</string>
+
+    <!-- 홈: 캘린더 카드 -->
+    <string name="home_calendar_kicker">이번 주</string>
+    <string name="home_calendar_title">캘린더</string>
+    <string name="home_schedule_time">09:00</string>
+    <string name="home_schedule_title">대대 전투체육</string>
+    <string name="home_schedule_desc">연병장 집합 · 전투복</string>
+
+    <!-- 홈: 퀘스트 카드 -->
+    <string name="home_quest_kicker">D-DAY 임박</string>
+    <string name="home_quest_title">퀘스트</string>
+    <string name="quest1_title">개인화기 손질</string>
+    <string name="quest1_due">오늘 18:00까지</string>
+    <string name="quest1_xp">+80 XP</string>
+    <string name="quest2_title">체력검정 준비</string>
+    <string name="quest2_due">6월 18일까지</string>
+    <string name="quest2_dday">D-2</string>
+    <string name="quest2_xp">+120 XP</string>
+</resources>

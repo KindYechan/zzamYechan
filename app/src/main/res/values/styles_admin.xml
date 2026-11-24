@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 행정반 화면 전용 스타일 (공용 스타일은 styles.xml) -->
+<resources>
+    <!-- 행정반 카드 제목 ("퀘스트", "캘린더") -->
+    <style name="JjamText.RoomCardTitle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 다이얼로그 제목 ("전파사항 작성") -->
+    <style name="JjamText.DialogTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
+    <!-- 기능 선택 칩 (CheckBox 의 체크 표시를 없애고 배경 색으로 선택 여부 표시) -->
+    <style name="JjamChip">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_chip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+    </style>
+
+</resources>

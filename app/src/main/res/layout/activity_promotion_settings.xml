@@ -170,8 +170,7 @@
                         android:paddingStart="10dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="10dp"
-                        android:paddingBottom="12dp"
-                        android:selected="true">
+                        android:paddingBottom="12dp">
 
                         <TextView
                             style="@style/JjamText"

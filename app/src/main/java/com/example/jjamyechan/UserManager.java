@@ -14,14 +14,12 @@ public class UserManager {
     // 지금 로그인한 유저. 로그인 전이거나 로그아웃했으면 null
     private static User currentUser = null;
 
-    // 테스트용 계정이 필요하면 아래 주석을 풀어 쓰세요. (제출 전에는 다시 지우기)
-    // 앱이 켜질 때 한 번 실행돼서, 매번 회원가입하지 않고 바로 로그인해 볼 수 있어요.
-    //
-     static {
-         User test = new User("test", "테스트", "soldier", "private", "2026-01-01", "2027-07-01");
-         users.put(test.getEmail(), test);
-         passwords.put(test.getEmail(), "12345678");
-     }
+    // 테스트용 계정 (test / 12345678). 앱이 켜질 때 한 번 실행돼요. 제출 전에는 지우기
+    static {
+        User test = new User("test", "테스트", "soldier", "private", "2026-01-01", "2027-07-01");
+        users.put(test.getEmail(), test);
+        passwords.put(test.getEmail(), "12345678");
+    }
 
     // 회원가입
     public static boolean signup(User user, String password) {
@@ -59,6 +57,8 @@ public class UserManager {
     public static void logout() {
         currentUser = null;
     }
+
+    // 행정반 나가기
     public static void leaveUnit() {
         getCurrentUser().setUnitCode(null);
         getCurrentUser().setRole(null);
@@ -68,7 +68,8 @@ public class UserManager {
     public static User getCurrentUser() {
         return currentUser;
     }
-    // 지금 로그인인지
+
+    // 지금 로그인 상태인지
     public static boolean isLoggedIn() {
         return currentUser != null;
     }

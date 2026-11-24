@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    회원가입의 계급 목록. 기존 ranks 배열(0번이 "계급을 선택해주세요")과 달리
-    안내 문구가 없고 0번 "이병"이 기본값이에요. → 선택 안 함 검사가 필요 없어요.
-
-    서버(디자인 코드)는 계급을 영어 코드로 저장해요. 순서가 같으니 위치(position)로 바꾸면 돼요:
-      0 이병 = "private"   1 일병 = "private-first-class"   2 상병 = "corporal"   3 병장 = "sergeant"
-      String[] codes = getResources().getStringArray(R.array.auth_rank_codes);
-      String rankCode = codes[binding.spRank.getSelectedItemPosition()];
+    회원가입의 계급 목록 (로그인 / 회원가입 화면 전용).
+    행정반 가입 시트의 ranks 배열(0번이 "계급을 선택해주세요")과 달리
+    안내 문구가 없고 0번 "이병"이 기본값이에요.
 -->
 <resources>
     <string-array name="auth_ranks">
@@ -14,12 +10,5 @@
         <item>일병</item>
         <item>상병</item>
         <item>병장</item>
-    </string-array>
-
-    <string-array name="auth_rank_codes" translatable="false">
-        <item>private</item>
-        <item>private-first-class</item>
-        <item>corporal</item>
-        <item>sergeant</item>
     </string-array>
 </resources>

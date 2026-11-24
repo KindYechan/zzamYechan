@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.jjamyechan.databinding.ActivitySettingsBinding;
 
 public class SettingActivity extends AppCompatActivity {
-    ActivitySettingsBinding binding;
+    private ActivitySettingsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +27,24 @@ public class SettingActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         binding.btnBack.setOnClickListener(view -> {
             finish();
         });
+
+        // 프로필 카드
         User user = UserManager.getCurrentUser();
         binding.tvProfileName.setText(user.getName());
         binding.tvProfileSub.setText(user.getRank() + " · 전역일 " + user.getDischargeDate());
-        if(user.getUnitCode() == null){
+
+        // 행정반에 가입 안 했으면 행정반 묶음 숨기기
+        if (user.getUnitCode() == null) {
             binding.groupUnit.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             binding.groupUnit.setVisibility(View.VISIBLE);
         }
 
-
+        // 로그아웃
         binding.rowLogout.setOnClickListener(view -> {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.set_logout_confirm)
@@ -53,7 +57,9 @@ public class SettingActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.set_confirm_no, null)   // null = 그냥 닫기
                     .show();
         });
-        binding.rowLeaveUnit.setOnClickListener(view ->{
+
+        // 행정반 나가기
+        binding.rowLeaveUnit.setOnClickListener(view -> {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.set_logout_confirm)
                     .setPositiveButton(R.string.set_confirm_yes, (dialog, which) -> {
@@ -63,6 +69,4 @@ public class SettingActivity extends AppCompatActivity {
                     .show();
         });
     }
-
-
 }

@@ -2,9 +2,6 @@ package com.example.jjamyechan;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -19,11 +16,18 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private boolean isQuest1Checked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+        // 로그인 안 된 상태로 열리면 (앱 실행 시 첫 화면이 이 화면일 때) 로그인 화면으로 보냄
+        if (!UserManager.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         WindowCompat.enableEdgeToEdge(getWindow());
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         binding.tvPromotionPercent.setText(Double.toString(currentUser.getServiceProgress()) + '%');
         binding.progressPromotion.setProgress((int) (currentUser.getServiceProgress() * 10));
 
-
+        // 월급 / 적금 카드
         binding.tvSalaryValue.setText(String.format(Locale.KOREA, "%,d", currentUser.getCurrentSalary()));
         binding.tvSalarySub.setText(getString(R.string.home_salary_dday, currentUser.getSalaryDay()));
         binding.tvSavingValue.setText(String.format(Locale.KOREA, "%,d", currentUser.getTotalSalary()));
@@ -55,19 +59,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
         // 바텀 네비게이션
         BottomNavigationView nav = binding.bottomNav.getRoot();
         nav.setSelectedItemId(R.id.nav_home);
         nav.setOnItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.nav_admin){
-                if(currentUser.getUnitCode() == null){
+            if (item.getItemId() == R.id.nav_admin) {
+                if (currentUser.getUnitCode() == null) {
                     Intent intent = new Intent(this, AdminEntryActivity.class);
                     startActivity(intent);
                     finish();
                     return true;
-                }
-                else{
+                } else {
                     Intent intent = new Intent(this, AdminRoomActivity.class);
                     startActivity(intent);
                     finish();

@@ -121,8 +121,7 @@
             android:clickable="true"
             android:focusable="true"
             android:orientation="vertical"
-            android:padding="12dp"
-            android:selected="true">
+            android:padding="12dp">
 
             <TextView
                 style="@style/JjamText"

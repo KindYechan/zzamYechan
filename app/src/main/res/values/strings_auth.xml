@@ -13,7 +13,6 @@
     <string name="auth_no_account">아직 계정이 없나요?</string>
     <string name="auth_go_signup">회원가입</string>
     <string name="auth_login">로그인</string>
-    <string name="auth_processing">처리 중…</string>
 
     <!-- 회원가입 -->
     <string name="auth_signup_title">짬인지와 함께 시작해요</string>
@@ -31,13 +30,7 @@
     <string name="auth_signup">짬인지 시작하기</string>
     <string name="auth_go_login">이미 계정이 있어요 · 로그인</string>
 
-    <!-- 오류 메시지: tv_auth_error 에 넣어서 보여 주세요 -->
-    <string name="auth_error_empty">아이디와 비밀번호를 입력해주세요.</string>
+    <!-- 오류 메시지 -->
     <string name="auth_error_login">아이디 또는 비밀번호를 확인해주세요.</string>
-    <string name="auth_error_username">아이디는 영문, 숫자, _, - 조합 4~32자로 입력해주세요.</string>
-    <string name="auth_error_password">비밀번호는 8자 이상 입력해주세요.</string>
-    <string name="auth_error_name">이름과 유형을 확인해주세요.</string>
-    <string name="auth_error_dates">입대일과 전역일을 확인해주세요.</string>
     <string name="auth_error_duplicate">이미 사용 중인 아이디입니다.</string>
-    <string name="auth_error_unknown">회원가입 중 문제가 발생했습니다. 입력 내용을 확인해주세요.</string>
 </resources>

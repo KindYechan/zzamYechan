@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    선택 상자(Spinner)에 들어갈 항목 목록.
+    행정반 가입 / 생성 시트의 선택 상자(Spinner) 항목 목록.
     레이아웃에서 android:entries="@array/이름" 으로 연결하면 Java 코드 없이도 항목이 채워져요.
     Java에서 고른 값 읽기: spinner.getSelectedItemPosition() (0부터 시작) 또는 getSelectedItem()
 -->

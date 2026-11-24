@@ -9,9 +9,8 @@ public class PromotionRule {
     private int averageThreshold;     // 평균 기준 (0~3)
     private List<PromotionItem> items = new ArrayList<>();
 
-    public PromotionRule() { }
-
-
+    public PromotionRule() {
+    }
 
     public String getMode() {
         return mode;
@@ -37,6 +36,7 @@ public class PromotionRule {
         this.items = items;
     }
 
+    // 고른 기록(항목 → 점수)으로 합격 여부 판정
     public PromotionResult evaluate(Map<PromotionItem, Integer> answers) {
         PromotionResult result = new PromotionResult();
 
@@ -66,4 +66,3 @@ public class PromotionRule {
         return result;
     }
 }
-
