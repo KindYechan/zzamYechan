@@ -2,8 +2,10 @@ package com.example.jjamyechan;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.jjamyechan.databinding.ActivityPromotionBinding;
 import com.example.jjamyechan.databinding.ItemPromotionAssessmentBinding;
@@ -13,7 +15,6 @@ import java.util.HashMap;
 public class PromotionActivity extends AppCompatActivity {
     private ActivityPromotionBinding binding;
     private User currentUser = UserManager.getCurrentUser();
-    // 항목 → 고른 점수 (0 특급 ~ 4 불합격). 고르지 않은 항목은 없음
     private final HashMap<PromotionItem, Integer> answers = new HashMap<>();
     private String selectedRank = "corporal";
 
@@ -27,24 +28,40 @@ public class PromotionActivity extends AppCompatActivity {
             finish();
         });
 
-        // 간부만 "기준 설정" 버튼 보이기
+        // 간부만 설정 버튼 보이기
         if (currentUser.getMemberType().equals("officer")) {
             binding.btnRules.setVisibility(View.VISIBLE);
         } else {
             binding.btnRules.setVisibility(View.GONE);
         }
+        // 상병이면 상병 탭, 병장은 병탭
+        if ("corporal".equals(currentUser.getRank())) {
+            selectedRank = "sergeant";
+            binding.rankTabs.rbTabSergeant.setChecked(true);
+        }
+        // 상병 병장 누르면 전환
+        binding.rankTabs.getRoot().setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rb_tab_corporal) {
+                selectedRank = "corporal";
+            } else {
+                selectedRank = "sergeant";
+            }
+            answers.clear();   // 이전 탭에서 고른 기록 지우기
+            drawRule();        // 새 계급 규칙으로 카드 다시 그리기 (안에서 updateResult 도 부름)
+        });
+
         drawRule();
     }
 
-    // 판정 방식 카드 + 항목 카드 그리기 (구현 중: 아직 onCreate 에서 부르지 않음)
+    // 판정 방식 카드 + 항목 카드 그리기
     private void drawRule() {
         PromotionRule rule = PromotionRuleManager.getRule(selectedRank);
         // 판정 방식
         if (rule.getMode().equals("average")) {
             String grade = getResources().getStringArray(R.array.promo_thresholds)[rule.getAverageThreshold()];
-            binding.tvRuleMode.setText(getString(R.string.promo_rule_average, grade));   // "평균 2급 이상"
+            binding.tvRuleMode.setText(getString(R.string.promo_rule_average, grade));
         } else {
-            binding.tvRuleMode.setText(R.string.promo_rule_all);                          // "모든 항목 통과"
+            binding.tvRuleMode.setText(R.string.promo_rule_all);
         }
 
         // 항목 개수
@@ -60,7 +77,8 @@ public class PromotionActivity extends AppCompatActivity {
             ItemPromotionAssessmentBinding card =
                     ItemPromotionAssessmentBinding.inflate(getLayoutInflater(), binding.listAssessments, false);
             card.tvItemName.setText(item.getName());
-            card.tvRequired.setVisibility(item.isRequired() ? View.VISIBLE : View.GONE);
+            boolean showRequired = rule.getMode().equals("average") && item.isRequired();
+            card.tvRequired.setVisibility(showRequired ? View.VISIBLE : View.GONE);
 
             if (item.getInputType().equals("grade")) {
                 card.tvItemThreshold.setText(getString(R.string.promo_threshold, item.getThreshold()));
@@ -72,7 +90,7 @@ public class PromotionActivity extends AppCompatActivity {
                 card.rgPass.setVisibility(View.VISIBLE);
             }
 
-            // 고를 때마다 기록 저장 + 결과 다시 계산
+            // 고를 때마다 기록 저장, 결과 다시 계산
             card.rgGrade.setOnCheckedChangeListener((group, checkedId) -> {
                 int score;
                 if (checkedId == R.id.rb_grade_special) score = 0;
@@ -83,12 +101,14 @@ public class PromotionActivity extends AppCompatActivity {
                 answers.put(item, score);
                 updateResult();
             });
+
             card.rgPass.setOnCheckedChangeListener((group, checkedId) -> {
-                answers.put(item, checkedId == R.id.rb_pass ? 0 : 4);   // 합격 0, 불합격 4
+                answers.put(item, checkedId == R.id.rb_pass ? 0 : 4);   // 합격: 0 불합격: 4
                 updateResult();
             });
             binding.listAssessments.addView(card.getRoot());
         }
+        updateResult();
     }
 
     // 결과 카드 그리기 (구현 중)
@@ -96,9 +116,77 @@ public class PromotionActivity extends AppCompatActivity {
         PromotionRule rule = PromotionRuleManager.getRule(selectedRank);
         PromotionResult result = rule.evaluate(answers);
 
-        // 합격/불합격 글자와 색, 배경
-        // 평균: result.average 가 null 이면 promo_result_average_none, 아니면 promo_result_average_value
-        // 부족한 항목: binding.listLacks.removeAllViews() 후 result.lacks 로 칩 만들기
-        //              불합격이고 lacks 가 있을 때만 layoutLacks 보이기
+
+        // 배경 및 텍스트 색
+        int background, labelColor, statusColor, descColor, valueColor, lineColor;
+        int statusText, descText;
+        if (result.passed) {
+            background  = R.drawable.bg_promo_result_pass;
+            labelColor  = R.color.promo_pass_label;
+            statusColor = R.color.on_dark;
+            descColor   = R.color.promo_pass_desc;
+            valueColor  = R.color.on_dark;
+            lineColor   = R.color.promo_pass_line;
+            statusText  = R.string.promo_pass;
+            descText    = R.string.promo_result_pass_desc;
+        } else {
+            background  = R.drawable.bg_promo_result_fail;
+            labelColor  = R.color.promo_fail_label;
+            statusColor = R.color.promo_fail_title;
+            descColor   = R.color.promo_fail_desc;
+            valueColor  = R.color.promo_fail_value;
+            lineColor   = R.color.promo_fail_line;
+            statusText  = R.string.promo_fail;
+            descText    = R.string.promo_result_fail_desc;
+        }
+
+        // 배경 색
+        binding.cardResult.setBackgroundResource(background);
+
+        // 상병 or 병장
+        String rankName = selectedRank.equals("corporal") ? getString(R.string.promo_rank_corporal) : getString(R.string.promo_rank_sergeant);
+        binding.tvResultLabel.setText(getString(R.string.promo_result_label, rankName));
+
+        // 합 불합
+        binding.tvResultStatus.setText(statusText);
+        binding.tvResultDesc.setText(descText);
+
+        // 글자 색
+        binding.tvResultLabel.setTextColor(ContextCompat.getColor(this, labelColor));
+        binding.tvResultAverageLabel.setTextColor(ContextCompat.getColor(this, labelColor));
+        binding.tvResultDateLabel.setTextColor(ContextCompat.getColor(this, labelColor));
+        binding.tvResultStatus.setTextColor(ContextCompat.getColor(this, statusColor));
+        binding.tvResultDesc.setTextColor(ContextCompat.getColor(this, descColor));
+        binding.tvResultAverage.setTextColor(ContextCompat.getColor(this, valueColor));
+        binding.tvResultDate.setTextColor(ContextCompat.getColor(this, valueColor));
+        binding.lineResult.setBackgroundColor(ContextCompat.getColor(this, lineColor));
+        binding.lineResultMiddle.setBackgroundColor(ContextCompat.getColor(this, lineColor));
+
+        // 평균 없음
+        if (result.average == null) {
+            binding.tvResultAverage.setText(R.string.promo_result_average_none);
+        } else {    // 평균값
+            binding.tvResultAverage.setText(getString(R.string.promo_result_average_value, result.average));
+        }
+        // 이전에 있던 칩(필요한 항목) 삭제
+        binding.listLacks.removeAllViews();
+
+        // 필요한 항목들 하나씩 추가하기
+        for (PromotionItem item : result.lacks) {
+            TextView chip = new TextView(this);
+            chip.setText(item.getName());
+            chip.setTextSize(12);
+            chip.setBackgroundResource(R.drawable.bg_promo_lack_chip);
+            chip.setTextColor(ContextCompat.getColor(this, R.color.promo_lack_text));
+            chip.setPadding(20, 12, 20, 12);    // 픽셀 단위
+            binding.listLacks.addView(chip);
+        }
+
+        // 불합격이고 부족한 항목이 있을 때만 상자 보이기
+        if (!result.passed && !result.lacks.isEmpty()) {
+            binding.layoutLacks.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutLacks.setVisibility(View.GONE);
+        }
     }
 }

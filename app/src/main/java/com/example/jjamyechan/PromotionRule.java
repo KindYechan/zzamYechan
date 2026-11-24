@@ -40,18 +40,26 @@ public class PromotionRule {
     public PromotionResult evaluate(Map<PromotionItem, Integer> answers) {
         PromotionResult result = new PromotionResult();
 
-        // 1) 평균: 등급 항목만, 안 고른 항목은 불합격(4)으로
+        // 평균 구하기
+        // 기본값은 4급, 합불합은 계산 x
         int sum = 0, count = 0;
         for (PromotionItem item : items) {
             if (item.getInputType().equals("grade")) {
                 Integer score = answers.get(item);
-                sum += (score == null) ? 4 : score;
+                if(score == null)
+                    sum += 4;
+                else
+                    sum += score;
                 count++;
             }
         }
-        result.average = (count == 0) ? null : (double) sum / count;
+        if(count == 0)
+            result.average = null;
+        else
+            result.average = (double) sum /count;
 
-        // 2) 부족한 항목: 전부 통과면 모든 항목, 평균 방식이면 필수 항목만 검사
+        // 보완이 필요한 항목 체크
+        // 전부 통과 or 필요한 것들만 lacks(list)에 추가
         for (PromotionItem item : items) {
             boolean check = mode.equals("all") || item.isRequired();
             if (check && !item.isPassed(answers.get(item))) {
@@ -59,9 +67,10 @@ public class PromotionRule {
             }
         }
 
-        // 3) 최종 판정
-        boolean averageOk = mode.equals("all")
-                || (result.average != null && result.average <= averageThreshold);
+        // 최종 판정
+        // 1. 평균이 넘는가 2. 필수 항목을 다 통과했는가
+        // 3. 모든 항목을 체크했는가, 필수 항목을 통과했는가
+        boolean averageOk = mode.equals("all") || (result.average != null && result.average <= averageThreshold);
         result.passed = !items.isEmpty() && result.lacks.isEmpty() && averageOk;
         return result;
     }
