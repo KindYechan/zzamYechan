@@ -9,6 +9,9 @@ public class User {
     // (왼쪽부터) 이메일, 이름, 병or간부, 계급, 입대일, 전역일, 부대코드, 역할(수정권한)
     private String email, name, memberType, rank, enlistmentDate, dischargeDate, unitCode, role;
 
+    private String pfcDate;        // 일병 진급일 "yyyy-MM-dd" (아직이면 null)
+    private String corporalDate;   // 상병 진급일
+    private String sergeantDate;   // 병장 진급일
     public User() {
     }
 
@@ -21,7 +24,21 @@ public class User {
         this.dischargeDate = dischargeDate;
     }
 
+
     // ───────── getter ─────────
+
+
+    public String getPfcDate() {
+        return pfcDate;
+    }
+
+    public String getCorporalDate() {
+        return corporalDate;
+    }
+
+    public String getSergeantDate() {
+        return sergeantDate;
+    }
 
     public String getEmail() {
         return email;
@@ -56,6 +73,19 @@ public class User {
     }
 
     // ───────── setter ─────────
+
+
+    public void setPfcDate(String pfcDate) {
+        this.pfcDate = pfcDate;
+    }
+
+    public void setCorporalDate(String corporalDate) {
+        this.corporalDate = corporalDate;
+    }
+
+    public void setSergeantDate(String sergeantDate) {
+        this.sergeantDate = sergeantDate;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -150,6 +180,34 @@ public class User {
     public double getSavingAccountPercent() {
         // 지금까지 적금 / 990만 * 1000 하고 바닥함수, 나누기 10
         return getTotalSalary() / 99000;
+    }
+
+    // 그 계급으로 이미 진급했는지 (진급일이 저장돼 있으면 true)
+    public boolean isPromotedTo(String rank) {
+        switch (rank) {
+            case "pfc":      return pfcDate != null;
+            case "corporal": return corporalDate != null;
+            case "sergeant": return sergeantDate != null;
+            default:         return true;   // 이병은 입대하면 바로
+        }
+    }
+
+    // 그 계급으로 진급하는 날 (진급했으면 실제 날짜, 아니면 정상 예정일)
+    public LocalDate getPromotionDate(String rank) {
+        switch (rank) {
+            case "pfc":
+                if (pfcDate != null) return LocalDate.parse(pfcDate);
+                // 입대한 달 1일 + 2개월
+                return LocalDate.parse(enlistmentDate).withDayOfMonth(1).plusMonths(2);
+            case "corporal":
+                if (corporalDate != null) return LocalDate.parse(corporalDate);
+                return getPromotionDate("pfc").plusMonths(6);        // 일병 진급일 + 6개월
+            case "sergeant":
+                if (sergeantDate != null) return LocalDate.parse(sergeantDate);
+                return getPromotionDate("corporal").plusMonths(6);   // 상병 진급일 + 6개월
+            default:
+                return LocalDate.parse(enlistmentDate);
+        }
     }
 
     // ───────── Object 메서드 ─────────

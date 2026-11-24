@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat;
 import com.example.jjamyechan.databinding.ActivityPromotionBinding;
 import com.example.jjamyechan.databinding.ItemPromotionAssessmentBinding;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class PromotionActivity extends AppCompatActivity {
@@ -168,6 +170,28 @@ public class PromotionActivity extends AppCompatActivity {
         } else {    // 평균값
             binding.tvResultAverage.setText(getString(R.string.promo_result_average_value, result.average));
         }
+
+        // ── 예상 진급일 ──
+        if (currentUser.getEnlistmentDate() == null) {
+            // 간부처럼 입대일이 없으면 계산 불가
+            binding.tvResultDate.setText(R.string.promo_result_average_none);   // "해당 없음"
+        } else {
+            LocalDate date = currentUser.getPromotionDate(selectedRank);
+
+            // 아직 진급 전인데 불합격이면 한 달 밀림
+            if (!currentUser.isPromotedTo(selectedRank) && !result.passed) {
+                date = date.plusMonths(1);
+            }
+
+            // 전역일을 넘지 않게 (누락되면 전역 직전에 진급)
+            LocalDate discharge = LocalDate.parse(currentUser.getDischargeDate());
+            if (date.isAfter(discharge)) {
+                date = discharge;
+            }
+
+            binding.tvResultDate.setText(date.format(DateTimeFormatter.ofPattern("yyyy. MM. dd")));
+        }
+
         // 이전에 있던 칩(필요한 항목) 삭제
         binding.listLacks.removeAllViews();
 
