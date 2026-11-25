@@ -36,6 +36,18 @@ public class PromotionRule {
         this.items = items;
     }
 
+    // 복사본 만들기 (설정 화면에서 저장 전까지 원본을 건드리지 않으려고)
+    public PromotionRule copy() {
+        PromotionRule c = new PromotionRule();
+        c.setMode(mode);
+        c.setAverageThreshold(averageThreshold);
+        for (PromotionItem item : items) {
+            // 내부 항목들 복사
+            c.items.add(new PromotionItem(item.getName(), item.getInputType(),
+                    item.getThreshold(), item.isRequired()));
+        }
+        return c;
+    }
     // 고른 기록(항목 → 점수)으로 합격 여부 판정
     public PromotionResult evaluate(Map<PromotionItem, Integer> answers) {
         PromotionResult result = new PromotionResult();

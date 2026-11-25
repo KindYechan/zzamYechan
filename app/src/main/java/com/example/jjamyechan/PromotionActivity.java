@@ -1,5 +1,6 @@
 package com.example.jjamyechan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -36,6 +37,11 @@ public class PromotionActivity extends AppCompatActivity {
         } else {
             binding.btnRules.setVisibility(View.GONE);
         }
+        // 설정버튼 누르면
+        binding.btnRules.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PromotionSettingsActivity.class);
+            startActivity(intent);
+        });
         // 상병이면 상병 탭, 병장은 병탭
         if ("corporal".equals(currentUser.getRank())) {
             selectedRank = "sergeant";
@@ -54,7 +60,13 @@ public class PromotionActivity extends AppCompatActivity {
 
         drawRule();
     }
-
+    // 바뀐 규칙으로 다시 그리기
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        answers.clear();
+        drawRule();
+    }
     // 판정 방식 카드 + 항목 카드 그리기
     private void drawRule() {
         PromotionRule rule = PromotionRuleManager.getRule(selectedRank);
@@ -175,7 +187,8 @@ public class PromotionActivity extends AppCompatActivity {
         if (currentUser.getEnlistmentDate() == null) {
             // 간부처럼 입대일이 없으면 계산 불가
             binding.tvResultDate.setText(R.string.promo_result_average_none);   // "해당 없음"
-        } else {
+        }
+        else {
             LocalDate date = currentUser.getPromotionDate(selectedRank);
 
             // 아직 진급 전인데 불합격이면 한 달 밀림

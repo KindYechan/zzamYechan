@@ -19,7 +19,12 @@ public class UserManager {
         User test = new User("test", "테스트", "soldier", "private", "2026-01-01", "2027-07-01");
         users.put(test.getEmail(), test);
         passwords.put(test.getEmail(), "12345678");
+        test.setPfcDate("2026-04-01");
+        User test2 = new User("test2", "간부테스트", "officer", "null", "2026-01-01", "2027-07-01");
+        users.put(test2.getEmail(), test2);
+        passwords.put(test2.getEmail(), "12345678");
     }
+
 
     // 회원가입
     public static boolean signup(User user, String password) {
